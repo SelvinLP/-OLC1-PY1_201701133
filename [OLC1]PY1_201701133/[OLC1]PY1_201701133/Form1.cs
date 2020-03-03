@@ -9,16 +9,26 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Collections;
+using _OLC1_PY1_201701133.Estructuras;
+using _OLC1_PY1_201701133.Reportes;
 
 namespace _OLC1_PY1_201701133
 {
     public partial class Form1 : Form
     {
         //creacion de lista tokens
-
+        ArrayList Lista_Tokens;
+        ArrayList Lista_Tokens_Error;
+        //Analizador
+        Analizador Analizadores;
         public Form1()
         {
             InitializeComponent();
+
+            Analizadores = new Analizador();
+            Lista_Tokens = new ArrayList();
+            Lista_Tokens_Error = new ArrayList();
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -57,6 +67,7 @@ namespace _OLC1_PY1_201701133
                     RichTextBox campo = new RichTextBox();
                     campo.Name = "rtb";
                     campo.WordWrap = false; campo.Multiline = true;
+                    campo.Font = new Font("Arial", 10);
                     campo.Width = 495; campo.Height = 375;
                     nuevapagina.Controls.Add(campo);
                     campo.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
@@ -107,7 +118,49 @@ namespace _OLC1_PY1_201701133
 
         private void analisisLeicoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Analsis lexico
+            //Seleccion de contenido del ritch actual
+            TabPage selectedTab = this.tabControl1.SelectedTab;
+            RichTextBox selectedRtb = selectedTab.Controls.Find("rtb", true).First() as RichTextBox;
+
+            Analizadores.Scanner(selectedRtb.Text);
+            Console.WriteLine(selectedRtb.Text);
+            Lista_Tokens = Analizadores.Get_Lista_T();
+            Lista_Tokens_Error = Analizadores.Get_Lista_T_Error();
+            MessageBox.Show("Analisis Completado");
+        }
+
+        private void imprimirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Agregar a las pestañas
+            TabControl controlpestañas = this.tabControl1;
+            TabPage nuevapagina = new TabPage();
+            //modificar pesataña
+            nuevapagina.Text = "Nueva Pestaña";
+            controlpestañas.TabPages.Add(nuevapagina);
+            controlpestañas.Location = new Point(8, 27);
+            controlpestañas.Size = new Size(500, 400);
+
+            //agregamos canpo de texto
+            RichTextBox campo = new RichTextBox();
+            campo.Name = "rtb";
+            campo.WordWrap = false; campo.Multiline = true;
+            campo .Font = new Font("Arial", 10);
+            campo.Width = 495; campo.Height = 375;
+            nuevapagina.Controls.Add(campo);
+            campo.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
+
+        }
+
+        private void lexicoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //boolean true significa reporte de tabla de tokens
+            Analizadores.Graficar_Tabla_Tokens(true);
+        }
+
+        private void erroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //boolean false significa reporte de tabla de errores en los tokens
+            Analizadores.Graficar_Tabla_Tokens(false);
         }
     }
 }
