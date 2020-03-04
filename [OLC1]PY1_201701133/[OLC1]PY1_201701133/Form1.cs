@@ -123,7 +123,7 @@ namespace _OLC1_PY1_201701133
             RichTextBox selectedRtb = selectedTab.Controls.Find("rtb", true).First() as RichTextBox;
 
             Analizadores.Scanner(selectedRtb.Text);
-            Console.WriteLine(selectedRtb.Text);
+            //Console.WriteLine(selectedRtb.Text);
             Lista_Tokens = Analizadores.Get_Lista_T();
             Lista_Tokens_Error = Analizadores.Get_Lista_T_Error();
             MessageBox.Show("Analisis Completado");

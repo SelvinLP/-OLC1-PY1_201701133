@@ -14,9 +14,15 @@ namespace _OLC1_PY1_201701133.Estructuras
     {
         ArrayList Lista_T;
         ArrayList Lista_T_Error;
+        ArrayList Lista_ER;
+        ArrayList Lista_CJ;
+        ArrayList Lista_ExpE;
         public Analizador() {
             Lista_T = new ArrayList();
             Lista_T_Error = new ArrayList();
+            Lista_ER = new ArrayList();
+            Lista_CJ = new ArrayList();
+            Lista_ExpE = new ArrayList();
         }
         public void Scanner(String Contenido) {
             Lista_T.Clear();
@@ -241,13 +247,17 @@ namespace _OLC1_PY1_201701133.Estructuras
                         else if (Caracter == '\n')
                         {
                             //salto de linea
+                            //Lista_T.Add(new Lista_Tokens(40, "\n", "Salto de Linea", Fila, Columna));
                             Columna = 1;
                             Fila++;
                             Estado = 0;
                         }
-                        else if (Caracter == ' ' | Caracter == '\t' | Caracter == '\b' | Caracter == '\r' | Caracter == '\f')
+                        else if (Caracter == ' ' | Caracter == '\b' | Caracter == '\r' | Caracter == '\f')
                         {
                             //Espacios en blanco
+                        }
+                        else if (Caracter == '\t') {
+                            //Lista_T.Add(new Lista_Tokens(39, "\t", "Tabulacion", Fila, Columna));
                         }
                         else
                         {
@@ -397,7 +407,193 @@ namespace _OLC1_PY1_201701133.Estructuras
                 //Console.WriteLine(Caracter);
             }
 
-                
+            //llamamos al Parser
+            Parser();   
+        }
+
+        public void Parser() {
+            Lista_ER Nuevo = null;
+            String Nombre = "";
+            String Contenido = "";
+            ArrayList tem = new ArrayList();
+            //este boleano sirve para concatenar la expresion regular
+            int Estado = 0;
+            for (int x = 0; x < Lista_T.Count; x++)
+            {
+                switch (Estado)
+                {
+                    //ESTADO 0
+                    case 0:
+                        //Conjuntos
+                        if (((Lista_Tokens)Lista_T[x]).getLexema().Equals("CONJ"))
+                        {
+                            if (((Lista_Tokens)Lista_T[x+1]).getLexema().Equals(":"))
+                            {
+                                if (((Lista_Tokens)Lista_T[x+2]).getDescripcion().Equals("Identificador"))
+                                {
+                                    //Son conjuntos 
+                                    Nombre = ((Lista_Tokens)Lista_T[x+2]).getLexema();
+                                    Estado = 1;
+                                    x = x + 4;
+                                }
+                            }
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Identificador"))
+                        {
+                            //pasaa estado de expresion regular
+                            Nombre = ((Lista_Tokens)Lista_T[x]).getLexema();
+                            Estado = 2;
+                        }
+                        break;
+
+                    case 1:
+                        //ESTADO 1
+                        //Concatena los conjuntos
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Identificador"))
+                        {
+                            if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
+                            {
+                                Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
+                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                x = x + 2;
+                                Estado = 0;
+                            }
+
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Digito"))
+                        {
+                            if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
+                            {
+                                Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
+                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                x = x + 2;
+                                Estado = 0;
+                            }
+
+                        }
+                        for (int i = 6; i <= 37; i++)
+                        {
+                            if (((Lista_Tokens)Lista_T[x]).getID() == i)
+                            {
+                                if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
+                                {
+                                    Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
+                                    Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                    x = x + 2;
+                                    Estado = 0;
+                                }
+
+                            }
+                        }
+                        //conjunto sin llaves
+                        if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(";"))
+                        {
+                            if (((Lista_Tokens)Lista_T[x+1]).getLexema().Equals(","))
+                            {
+                            }
+                            else
+                            {
+                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                Estado = 0;
+                                Contenido = "";
+
+                            }
+                        }
+                        else
+                        {
+                            Contenido += ((Lista_Tokens)Lista_T[x]).getLexema();
+                        }
+
+
+                        break;
+                    case 2:
+                        //ESTADO 2
+                        if (((Lista_Tokens)Lista_T[x]).getLexema().Equals("-"))
+                        {
+                            if (((Lista_Tokens)Lista_T[x+1]).getLexema().Equals(">"))
+                            {
+                                //se mira que es expresion regular
+
+                                Lista_ER nuevo = new Lista_ER(((Lista_Tokens)Lista_T[x-1]).getLexema());
+                                Nuevo = nuevo;
+                                Lista_ER.Add(nuevo);
+                                x++;
+                                Estado = 3;
+                            }
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(":"))
+                        {
+                            //se mira que es lexema
+                            Estado = 4;
+                        }
+                        break;
+                    case 3:
+                        //ESTADO 3
+                        //Concatenacion de Expresion Regular
+
+                        //System.out.println("---------------------------------"+ ((Lista_Tokens)Lista_T[x]).getLexema());
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Punto"))
+                        {
+                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Barra Vetical"))
+                        {
+                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Interrogacion"))
+                        {
+                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Asterisco"))
+                        {
+                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Signo Mas"))
+                        {
+                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Lexema de Entrada"))
+                        {
+                            String tem1 = '"' + ((Lista_Tokens)Lista_T[x]).getLexema() + '"';
+                            Nuevo.setER(tem1);
+
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getLexema().Equals("{"))
+                        {
+                            String tem1 = "";
+                            if (((Lista_Tokens)Lista_T[x-2]).getLexema().Equals("}"))
+                            {
+                                tem1 = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
+                                Nuevo.setER(tem1);
+                            }
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(";"))
+                        {
+                            Estado = 0;
+                        }
+                        break;
+                    case 4:
+                        //                    System.out.println(((Lista_Tokens)Lista_T[x]).getLexema());
+                        Contenido = ((Lista_Tokens)Lista_T[x+1]).getLexema();
+                        Lista_ExpE.Add(new Lista_LexemaE(((Lista_Tokens)Lista_T[x - 2]).getLexema(), Contenido));
+                        Estado = 0;
+
+                        break;
+                }//fin switch
+            }//Fin for
+             //prueba si se llenaron las listas correctamente
+             //for (int i = 0; i < Lista_CJ.Count; i++){
+             //    Console.WriteLine("NOMBRE DEL CONJUNTO: "+((Lista_Conjuntos)Lista_CJ[i]).getNombre()+"\t CONTENIDO: "+ ((Lista_Conjuntos)Lista_CJ[i]).getContenido());
+             //}
+            //for (int i = 0; i < Lista_ER.Count; i++)
+            //{
+            //    Console.WriteLine("NOMBRE DEL EXPR: " + ((Lista_ER)Lista_ER[i]).getNombre() + "\t CONTENIDO: ");
+            //}
+            //for (int i = 0; i < Lista_ExpE.Count; i++)
+            //{
+            //    Console.WriteLine("NOMBRE DEL LEXEMA: " + ((Lista_LexemaE)Lista_ExpE[i]).getNombre() + "\t CONTENIDO: "+ ((Lista_LexemaE)Lista_ExpE[i]).getContenido());
+            //}
+
         }
 
         public ArrayList Get_Lista_T() {

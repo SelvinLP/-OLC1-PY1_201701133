@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Estructuras\Analizador.cs" />
+    <Compile Include="Estructuras\Lista_Conjuntos.cs" />
+    <Compile Include="Estructuras\Lista_ER.cs" />
+    <Compile Include="Estructuras\Lista_LexemaE.cs" />
     <Compile Include="Estructuras\Lista_Tokens.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
