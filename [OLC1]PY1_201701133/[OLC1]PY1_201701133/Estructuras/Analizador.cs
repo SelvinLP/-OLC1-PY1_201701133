@@ -33,11 +33,13 @@ namespace _OLC1_PY1_201701133.Estructuras
             int Columna = 1;
             String Lexema = "";
             String Cadena_Archivo = Contenido;
+            int saltolineallaves = 0;
             for (int i = 0; i < Cadena_Archivo.Length; i++)
             {
                 Caracter = Cadena_Archivo[i];
                 switch (Estado)
                 {
+                    #region case 0
                     case 0:
 
                         if (Caracter == (char)33)
@@ -174,15 +176,13 @@ namespace _OLC1_PY1_201701133.Estructuras
                         }
                         else if (Caracter == (char)91)
                         {
-                            Lista_T.Add(new Lista_Tokens(28, Caracter.ToString(), "Corchete Izquierdo", Fila, Columna));
-                            Estado = 0;
-                            Columna++;
+                            //conjunto [:todo:]
+                            Estado = 9; 
                         }
                         else if (Caracter == (char)92)
                         {
-                            Lista_T.Add(new Lista_Tokens(29, Caracter.ToString(), "Barra Invertida", Fila, Columna));
-                            Estado = 0;
-                            Columna++;
+                            //caracteres especiales
+                            Estado = 8;
                         }
                         else if (Caracter == (char)93)
                         {
@@ -269,6 +269,7 @@ namespace _OLC1_PY1_201701133.Estructuras
 
 
                         break;
+                    #endregion
                     case 1:
                         //Verificar si es Letra
                         if (Char.IsLetter(Caracter))
@@ -401,7 +402,97 @@ namespace _OLC1_PY1_201701133.Estructuras
                             Columna++;
                         }
                         break;
-
+                    case 8:
+                        //caracteres especiales
+                        if (Caracter == (char)116)
+                        {
+                            Lista_T.Add(new Lista_Tokens(39, "\\"+Caracter.ToString(), "C_Especial Tabulacion", Fila, Columna));
+                            Estado = 0;
+                            Columna++;
+                        }
+                        else if (Caracter == (char)110)
+                        {
+                            Lista_T.Add(new Lista_Tokens(40, "\\"+Caracter.ToString(), "C_Especial Salto Linea", Fila, Columna));
+                            Estado = 0;
+                            Columna++;
+                        }
+                        else if (Caracter == (char)39)
+                        {
+                            Lista_T.Add(new Lista_Tokens(41, "\\"+Caracter.ToString(), "C_Especial Comilla Simple", Fila, Columna));
+                            Estado = 0;
+                            Columna++;
+                        }
+                        else if (Caracter == (char)34)
+                        {
+                            Lista_T.Add(new Lista_Tokens(42, "\\"+Caracter.ToString(), "C_Especial Comilla Doble", Fila, Columna));
+                            Estado = 0;
+                            Columna++;
+                        }
+                        else {
+                            Lista_T.Add(new Lista_Tokens(29, "\\", "Barra Invertida", Fila, Columna));
+                            Estado = 0;
+                            Columna++;
+                            i--;
+                        }
+                        break;
+                    case 9:
+                        //conjunto de todo pero no es comentario [:todo:]
+                        if (Caracter == (char)58)
+                        {
+                            Estado = 10;
+                            Lexema = "";
+                            saltolineallaves=1;
+                        }
+                        else
+                        {
+                            Lista_T.Add(new Lista_Tokens(28, "[", "Corchete Izquierdo", Fila, Columna));
+                            Estado = 0;
+                            Columna++;
+                            i--;
+                        }
+                        
+                        break;
+                    case 10:
+                        //Acreta todo de [:todo:]
+                        if (Caracter != (char)58 )
+                        {
+                            Lexema += Caracter;
+                            saltolineallaves++;
+                            //comprobacion si viene salto de linea
+                            if (Caracter == (char)92 ) {
+                                //comproabcion si n
+                                if (Cadena_Archivo[i+1] == (char)110)
+                                {
+                                    //debe salir porque hay salto de linea
+                                    Lista_T.Add(new Lista_Tokens(28, "[", "Corchete Izquierdo", Fila, Columna));
+                                    Estado = 0;
+                                    Columna++;
+                                    Lexema = "";
+                                    i = i - saltolineallaves;
+                                }
+                            }
+                            
+                        }
+                        else
+                        {
+                            i++;
+                            if (i< Cadena_Archivo.Length) {
+                                //comproabcion si es llave que cierra
+                                if (Cadena_Archivo[i] == (char)93)
+                                {
+                                    Lista_T.Add(new Lista_Tokens(28, Lexema, "C_Especial [:TODO:]", Fila, Columna));
+                                    Estado = 0;
+                                    Lexema = "";
+                                    Columna++;
+                                }
+                                else {
+                                    Estado = 10;
+                                    Lexema += Caracter;
+                                    i--;
+                                }
+                            }
+                        }
+                        break;
                 }
 
                 //Console.WriteLine(Caracter);
@@ -488,7 +579,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                         //conjunto sin llaves
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(";"))
                         {
-                            if (((Lista_Tokens)Lista_T[x+1]).getLexema().Equals(","))
+                            if (((Lista_Tokens)Lista_T[x-1]).getLexema().Equals(","))
                             {
                             }
                             else
@@ -561,7 +652,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals("{"))
                         {
                             String tem1 = "";
-                            if (((Lista_Tokens)Lista_T[x-2]).getLexema().Equals("}"))
+                            if (((Lista_Tokens)Lista_T[x+2]).getLexema().Equals("}"))
                             {
                                 tem1 = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
                                 Nuevo.setER(tem1);
@@ -596,12 +687,44 @@ namespace _OLC1_PY1_201701133.Estructuras
 
         }
 
-        public ArrayList Get_Lista_T() {
-            return Lista_T;
+        public void GetArrayLista_ER(ArrayList tem) {
+            for (int x = 0; x < Lista_ER.Count; x++)
+            {
+
+                for (int x2 = 0; x2 < tem.Count; x2++)
+                {
+
+                    String nombre = ((Lista_ER)tem[x2]).getNombre();
+
+                    if (nombre.Equals(((Lista_ER)Lista_ER[x]).getNombre()))
+                    {
+                        tem.RemoveAt(x2);
+                        break;
+                    }
+                }
+                tem.Add(Lista_ER[x]);
+
+            }
+
         }
 
-        public ArrayList Get_Lista_T_Error() {
-            return Lista_T_Error;
+        public void GetArrayLista_CJ(ArrayList tem)
+        {
+            for (int x = 0; x < Lista_CJ.Count; x++)
+            {
+                for (int x2=0;x2<tem.Count;x2++) {
+                    
+                    String nombre = ((Lista_Conjuntos)tem[x2]).getNombre();
+                    
+                    if (nombre.Equals(((Lista_Conjuntos)Lista_CJ[x]).getNombre()))
+                    {
+                        tem.RemoveAt(x2);
+                        break;
+                    }
+                }
+                tem.Add(Lista_CJ[x]);
+
+            }
         }
 
         public void Graficar_Tabla_Tokens(Boolean Tokens_o_Error) {

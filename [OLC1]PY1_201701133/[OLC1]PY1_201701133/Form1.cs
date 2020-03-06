@@ -18,17 +18,18 @@ namespace _OLC1_PY1_201701133
     public partial class Form1 : Form
     {
         //creacion de lista tokens
-        ArrayList Lista_Tokens;
-        ArrayList Lista_Tokens_Error;
+        ArrayList Lista_Expresiones_R;
+        ArrayList Lista_Conjuntos;
         //Analizador
         Analizador Analizadores;
         public Form1()
         {
             InitializeComponent();
 
-            Analizadores = new Analizador();
-            Lista_Tokens = new ArrayList();
-            Lista_Tokens_Error = new ArrayList();
+            Lista_Expresiones_R = new ArrayList();
+            Lista_Conjuntos = new ArrayList();
+            Lista_Expresiones_R = new ArrayList();
+
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -118,15 +119,31 @@ namespace _OLC1_PY1_201701133
 
         private void analisisLeicoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Analizadores = new Analizador();
             //Seleccion de contenido del ritch actual
             TabPage selectedTab = this.tabControl1.SelectedTab;
             RichTextBox selectedRtb = selectedTab.Controls.Find("rtb", true).First() as RichTextBox;
 
             Analizadores.Scanner(selectedRtb.Text);
-            //Console.WriteLine(selectedRtb.Text);
-            Lista_Tokens = Analizadores.Get_Lista_T();
-            Lista_Tokens_Error = Analizadores.Get_Lista_T_Error();
-            MessageBox.Show("Analisis Completado");
+            //Analisar
+            Analizadores.GetArrayLista_ER(Lista_Expresiones_R);
+            Analizadores.GetArrayLista_CJ(Lista_Conjuntos);
+            //Generadores de Thompson
+            for (int no=0;no<Lista_Expresiones_R.Count;no++) {
+                Metodo_Thompson Analizador_Thompson = new Metodo_Thompson();
+                Analizador_Thompson.Analizar_Metodo(((Lista_ER)Lista_Expresiones_R[no]).getNombre(), ((Lista_ER)Lista_Expresiones_R[no]).getER());
+            }
+
+
+
+
+
+            //for (int i = 0; i < Lista_Conjuntos.Count; i++)
+            //{
+            //    Console.WriteLine("NOMBRE DEL CONJUNTO: " + ((Lista_Conjuntos)Lista_Conjuntos[i]).getNombre() + "\t CONTENIDO: " + ((Lista_Conjuntos)Lista_Conjuntos[i]).getContenido());
+            //}
+            //MessageBox.Show("Analisis Completado");
+
         }
 
         private void imprimirToolStripMenuItem_Click(object sender, EventArgs e)
