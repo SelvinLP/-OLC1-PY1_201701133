@@ -1,5 +1,5 @@
 digraph AFD { 
-graph [label="AFND: EXP3", labelloc=t, fontsize=20];
+graph [label="AFND: decnum", labelloc=t, fontsize=20];
 rankdir=LR;
 edge [color=blue];
 node [color = mediumseagreen];

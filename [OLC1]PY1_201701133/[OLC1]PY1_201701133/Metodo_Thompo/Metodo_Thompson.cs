@@ -128,10 +128,28 @@ namespace _OLC1_PY1_201701133.Estructuras
                 Control_Est++;
             }else if (rz.Indentificador.Equals("."))
             {
-                rz.Derecha.Primero = rz.Izquierda.Ultimo;
                 rz.Primero = rz.Izquierda.Primero;
                 rz.Ultimo = rz.Derecha.Ultimo;
-            }else if (rz.Indentificador.Equals("|") || rz.Indentificador.Equals("*") || rz.Indentificador.Equals("?") || rz.Indentificador.Equals("+"))
+                //cambios
+                rz.Derecha.Primero = rz.Izquierda.Ultimo;
+                int nueva_pos = rz.Izquierda.Ultimo;
+                rz = rz.Derecha;
+                while (rz != null)
+                {
+                    if (rz.Indentificador.Equals("."))
+                    {
+                        rz.Primero = nueva_pos;
+                        rz = rz.Izquierda;
+                    }
+                    else
+                    {
+                        rz.Primero = nueva_pos;
+                        break;
+
+                    }
+                }
+            }
+            else if (rz.Indentificador.Equals("|") || rz.Indentificador.Equals("*") || rz.Indentificador.Equals("?") || rz.Indentificador.Equals("+"))
             {
                 rz.Primero = Control_Est;
                 Control_Est++;
@@ -274,7 +292,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                 Console.WriteLine(ex.ToString());
             }
             String comando = "dot -Tpng AFND" + Nombre_ER + ".dot -o AFND" + Nombre_ER + ".png";
-            
+            EjecutarComandoCMD(comando);
         }
 
         public void EjecutarComandoCMD(String comando) {
@@ -286,7 +304,7 @@ namespace _OLC1_PY1_201701133.Estructuras
             procStartInfo.RedirectStandardOutput = true;
             procStartInfo.UseShellExecute = false;
             //Indica que el proceso no despliegue una pantalla negra
-            procStartInfo.CreateNoWindow = false;
+            procStartInfo.CreateNoWindow = true;
             //Inicializa el proceso
             System.Diagnostics.Process proc = new System.Diagnostics.Process();
             proc.StartInfo = procStartInfo;
