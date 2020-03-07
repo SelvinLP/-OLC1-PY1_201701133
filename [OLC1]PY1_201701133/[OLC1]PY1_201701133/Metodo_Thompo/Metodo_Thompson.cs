@@ -25,9 +25,11 @@ namespace _OLC1_PY1_201701133.Estructuras
     }
     class Metodo_Thompson
     {
+
         //definicion de listas
         ArrayList Lista_ExpRegular;
         ArrayList L_Transiciones;
+        //Nombre de ER
         String Nombre_ER;
         //Arbol
         Nodo_Arbol Raiz;
@@ -54,7 +56,7 @@ namespace _OLC1_PY1_201701133.Estructuras
             Creacion_Estados(this.Raiz);
             //asignacion de estaodos
             Asigancion_Estados(this.Raiz);
-            //Graficar_AFND();
+            Graficar_AFND();
             //imprimimos en consola el arbol
             Console.WriteLine("RECORRIDO");
             RecorridoInorden(this.Raiz);
@@ -153,17 +155,17 @@ namespace _OLC1_PY1_201701133.Estructuras
             //validaciones
             if (rz.Izquierda == null && rz.Derecha == null)
             {
-                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Ultimo, rz.Indentificador);
+                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Ultimo, rz.Indentificador,0);
                 L_Transiciones.Add(nuevo);
             }
             else if (rz.Indentificador.Equals("|"))
             {
                 //iniciales
-                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε");
-                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Primero, rz.Derecha.Primero, "ε");
+                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε",0);
+                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Primero, rz.Derecha.Primero, "ε",0);
                 //ultimos
-                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε");
-                Lista_Transiciones nuevo4 = new Lista_Transiciones(rz.Derecha.Ultimo, rz.Ultimo, "ε");
+                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε",0);
+                Lista_Transiciones nuevo4 = new Lista_Transiciones(rz.Derecha.Ultimo, rz.Ultimo, "ε",0);
                 L_Transiciones.Add(nuevo);
                 L_Transiciones.Add(nuevo2);
                 L_Transiciones.Add(nuevo3);
@@ -172,12 +174,12 @@ namespace _OLC1_PY1_201701133.Estructuras
             else if (rz.Indentificador.Equals("*"))
             {
                 //iniciales
-                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε");
-                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Izquierda.Primero, "ε");
+                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε",0);
+                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Izquierda.Primero, rz.Izquierda.Ultimo, "ε",1);
 
                 //ultimo
-                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Primero, rz.Ultimo, "ε");
-                Lista_Transiciones nuevo4 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε");
+                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Primero, rz.Ultimo, "ε",0);
+                Lista_Transiciones nuevo4 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε",0);
                 L_Transiciones.Add(nuevo);
                 L_Transiciones.Add(nuevo2);
                 L_Transiciones.Add(nuevo3);
@@ -186,11 +188,11 @@ namespace _OLC1_PY1_201701133.Estructuras
             else if (rz.Indentificador.Equals("?"))
             {
                 //iniciales
-                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε");
+                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε",0);
 
                 //ultimo
-                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Primero, rz.Ultimo, "ε");
-                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε");
+                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Primero, rz.Ultimo, "ε",0);
+                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε",0);
                 L_Transiciones.Add(nuevo);
                 L_Transiciones.Add(nuevo2);
                 L_Transiciones.Add(nuevo3);
@@ -199,10 +201,10 @@ namespace _OLC1_PY1_201701133.Estructuras
             else if (rz.Indentificador.Equals("+"))
             {
                 //iniciales
-                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε");
-                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Izquierda.Primero, "ε");
+                Lista_Transiciones nuevo = new Lista_Transiciones(rz.Primero, rz.Izquierda.Primero, "ε",0);
+                Lista_Transiciones nuevo2 = new Lista_Transiciones(rz.Izquierda.Primero, rz.Izquierda.Ultimo, "ε",1);
                 //ultimo
-                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε");
+                Lista_Transiciones nuevo3 = new Lista_Transiciones(rz.Izquierda.Ultimo, rz.Ultimo, "ε",0);
                 L_Transiciones.Add(nuevo);
                 L_Transiciones.Add(nuevo2);
                 L_Transiciones.Add(nuevo3);
@@ -224,25 +226,39 @@ namespace _OLC1_PY1_201701133.Estructuras
 
         public void Graficar_AFND() {
             String CadenaImprimir = "digraph AFD { " + '\n';
-            CadenaImprimir += "graph [label=\"AFND: \", labelloc=t, fontsize=20]; ";
-            CadenaImprimir += "rankdir=LR;";
-            CadenaImprimir += "edge [color=blue];";
-            CadenaImprimir += "node [color = mediumseagreen];";
+            CadenaImprimir += "graph [label=\"AFND: "+Nombre_ER+"\", labelloc=t, fontsize=20];\n";
+            CadenaImprimir += "rankdir=LR;\n";
+            CadenaImprimir += "edge [color=blue];\n";
+            CadenaImprimir += "node [color = mediumseagreen];\n";
             //creacion de nodos
-            for (int  i=0;i<Control_Est-1;i++) {
-                CadenaImprimir += "\"S" +i+ "\"" + "[ label= ]" + '\n';
+            for (int  x=0;x<Control_Est-1;x++) {
+                for (int i = 0; i < L_Transiciones.Count; i++)
+                {
+                    if (((Lista_Transiciones)L_Transiciones[i]).Get_Primero() == x || ((Lista_Transiciones)L_Transiciones[i]).Get_Siguiente() == x)
+                    {
+                        //crea el nodo solosi hay una transicion con ella
+                        CadenaImprimir += "\"S" + x + "\"" + "[ label=S" + x + " ]" + '\n';
+                        break;
+                    }
+                }
             }
+
             //creacion de transiciones
             for (int i = 0; i < L_Transiciones.Count; i++)
             {
-                CadenaImprimir += "\"S" +((Lista_Transiciones)L_Transiciones[i]).Get_Primero()+ "\"" + "->\"S" + ((Lista_Transiciones)L_Transiciones[i]).Get_Siguiente() + "\"" + "[label=\"" + ((Lista_Transiciones)L_Transiciones[i]).Get_IdCambio() + "\"];" + '\n';
+                String direccion = "";
+                if (((Lista_Transiciones)L_Transiciones[i]).Get_Direccion()==1) {
+                    direccion = ",dir=back";
+                }
+                string tem = ((Lista_Transiciones)L_Transiciones[i]).Get_IdCambio();
+                tem = tem.Replace("\"", "\\\"");
+                CadenaImprimir += "\"S" + ((Lista_Transiciones)L_Transiciones[i]).Get_Primero() + "\"" + "->\"S" + ((Lista_Transiciones)L_Transiciones[i]).Get_Siguiente() + "\"" + "[label=\"" + tem + "\" "+direccion+"];" + '\n';
             }
-            //CadenaImprimir += "secret_node [style=invis];\n";
-            //CadenaImprimir += "secret_node -> S0 [label=\"inicio\"];";
+
             CadenaImprimir += '\n' + "}";
 
             //creacion del .dot
-            string path = @"AFND.dot";
+            string path = @"AFND"+Nombre_ER+".dot";
             try
             {
                 using (FileStream fs = File.Create(path))
@@ -257,7 +273,24 @@ namespace _OLC1_PY1_201701133.Estructuras
             {
                 Console.WriteLine(ex.ToString());
             }
+            String comando = "dot -Tpng AFND" + Nombre_ER + ".dot -o AFND" + Nombre_ER + ".png";
+            
         }
 
+        public void EjecutarComandoCMD(String comando) {
+            System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + comando);
+
+            ////No Funciona(La ventana sigue apareciendo)
+            procStartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            // Indicamos que la salida del proceso se redireccione en un Stream
+            procStartInfo.RedirectStandardOutput = true;
+            procStartInfo.UseShellExecute = false;
+            //Indica que el proceso no despliegue una pantalla negra
+            procStartInfo.CreateNoWindow = false;
+            //Inicializa el proceso
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
+        }
     }
 }

@@ -8,3 +8,4 @@ C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-P
 C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Debug\[OLC1]PY1_201701133.pdb
 C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Debug\_OLC1_PY1_201701133.Form1.resources
 C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Debug\_OLC1_PY1_201701133.Reportes.Tabla_Tokens.resources
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Debug\_OLC1_PY1_201701133.Reportes.Reporte_Imagenes.resources

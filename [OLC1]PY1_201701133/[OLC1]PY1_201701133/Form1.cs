@@ -22,6 +22,8 @@ namespace _OLC1_PY1_201701133
         ArrayList Lista_Conjuntos;
         //Analizador
         Analizador Analizadores;
+        //controlador de Imagenes AFND
+        int Posicion_AFND;
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +31,7 @@ namespace _OLC1_PY1_201701133
             Lista_Expresiones_R = new ArrayList();
             Lista_Conjuntos = new ArrayList();
             Lista_Expresiones_R = new ArrayList();
-
+            Posicion_AFND = 0;
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -119,10 +121,16 @@ namespace _OLC1_PY1_201701133
 
         private void analisisLeicoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Analizadores = new Analizador();
+            //Jtree
+            treeView1.Nodes.Clear();
+            treeView1.Nodes.Add("AFND");
+
             //Seleccion de contenido del ritch actual
             TabPage selectedTab = this.tabControl1.SelectedTab;
             RichTextBox selectedRtb = selectedTab.Controls.Find("rtb", true).First() as RichTextBox;
+
+
+            Analizadores = new Analizador();
 
             Analizadores.Scanner(selectedRtb.Text);
             //Analisar
@@ -132,11 +140,10 @@ namespace _OLC1_PY1_201701133
             for (int no=0;no<Lista_Expresiones_R.Count;no++) {
                 Metodo_Thompson Analizador_Thompson = new Metodo_Thompson();
                 Analizador_Thompson.Analizar_Metodo(((Lista_ER)Lista_Expresiones_R[no]).getNombre(), ((Lista_ER)Lista_Expresiones_R[no]).getER());
-            }
-
-
-
-
+                //agregar al Tree
+                treeView1.Nodes[0].Nodes.Add("AFND"+((Lista_ER)Lista_Expresiones_R[no]).getNombre());
+                
+            }           
 
             //for (int i = 0; i < Lista_Conjuntos.Count; i++)
             //{
@@ -178,6 +185,25 @@ namespace _OLC1_PY1_201701133
         {
             //boolean false significa reporte de tabla de errores en los tokens
             Analizadores.Graficar_Tabla_Tokens(false);
+        }
+
+        private void mostrarAFNDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reporte_Imagenes R_I = new Reporte_Imagenes();
+            Posicion_AFND = 0;
+            if (Lista_Expresiones_R.Count != 0)
+            {
+                Bitmap MyImage;
+                MyImage = new Bitmap("AFND" + ((Lista_ER)Lista_Expresiones_R[Posicion_AFND]).getNombre() + ".png");
+                R_I.pictureBox1.Image = (Image)MyImage;
+                R_I.RecibirTamañoyLista(Lista_Expresiones_R.Count,Lista_Expresiones_R);
+                R_I.Show();
+            }
+            else
+            {
+                MessageBox.Show("No Hay Imagenes Cargadas");
+            }
+            
         }
     }
 }

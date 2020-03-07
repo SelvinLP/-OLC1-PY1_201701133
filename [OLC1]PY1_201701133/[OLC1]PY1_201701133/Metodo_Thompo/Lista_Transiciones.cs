@@ -10,11 +10,13 @@ namespace _OLC1_PY1_201701133.Metodo_Thompo
     {
         int primero;
         int siguiente;
+        int direccion;
         string Id_Cambio;
-        public Lista_Transiciones(int p,int sig, String Id_Cambi) {
+        public Lista_Transiciones(int p,int sig, String Id_Cambi,int dir) {
             this.primero = p;
             this.siguiente = sig;
             this.Id_Cambio = Id_Cambi;
+            this.direccion = dir;
         }
         public int Get_Primero()
         {
@@ -25,6 +27,10 @@ namespace _OLC1_PY1_201701133.Metodo_Thompo
         }
         public String Get_IdCambio() {
             return this.Id_Cambio;
+        }
+        public int Get_Direccion()
+        {
+            return this.direccion;
         }
 
     }

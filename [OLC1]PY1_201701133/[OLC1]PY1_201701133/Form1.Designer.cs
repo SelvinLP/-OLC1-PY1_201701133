@@ -54,6 +54,8 @@
             this.lexicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.mostrarAFNDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,7 +68,7 @@
             this.reportesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(927, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(673, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -234,7 +236,8 @@
             // 
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lexicoToolStripMenuItem,
-            this.erroresToolStripMenuItem});
+            this.erroresToolStripMenuItem,
+            this.mostrarAFNDToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.reportesToolStripMenuItem.Text = "&Reportes";
@@ -262,13 +265,28 @@
             this.tabControl1.Size = new System.Drawing.Size(501, 333);
             this.tabControl1.TabIndex = 1;
             // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(517, 47);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(131, 379);
+            this.treeView1.TabIndex = 2;
+            // 
+            // mostrarAFNDToolStripMenuItem
+            // 
+            this.mostrarAFNDToolStripMenuItem.Name = "mostrarAFNDToolStripMenuItem";
+            this.mostrarAFNDToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.mostrarAFNDToolStripMenuItem.Text = "Mostrar &AFND";
+            this.mostrarAFNDToolStripMenuItem.Click += new System.EventHandler(this.mostrarAFNDToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(927, 564);
+            this.ClientSize = new System.Drawing.Size(673, 564);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.Location = new System.Drawing.Point(25, 15);
@@ -310,6 +328,8 @@
         private System.Windows.Forms.ToolStripMenuItem erroresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem analisisToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem analisisLeicoToolStripMenuItem;
+        public System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.ToolStripMenuItem mostrarAFNDToolStripMenuItem;
     }
 }
 

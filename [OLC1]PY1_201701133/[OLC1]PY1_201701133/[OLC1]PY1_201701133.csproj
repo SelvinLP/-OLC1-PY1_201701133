@@ -61,6 +61,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\Reporte_Imagenes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\Reporte_Imagenes.Designer.cs">
+      <DependentUpon>Reporte_Imagenes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\Tabla_Tokens.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +85,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Reportes\Reporte_Imagenes.resx">
+      <DependentUpon>Reporte_Imagenes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reportes\Tabla_Tokens.resx">
       <DependentUpon>Tabla_Tokens.cs</DependentUpon>
     </EmbeddedResource>
