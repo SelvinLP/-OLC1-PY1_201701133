@@ -12,7 +12,7 @@ namespace _OLC1_PY1_201701133.Metodo_Thompo
         int siguiente;
         int direccion;
         string Id_Cambio;
-        public Lista_Transiciones(int p,int sig, String Id_Cambi,int dir) {
+        public Lista_Transiciones(int p, int sig, String Id_Cambi, int dir) {
             this.primero = p;
             this.siguiente = sig;
             this.Id_Cambio = Id_Cambi;

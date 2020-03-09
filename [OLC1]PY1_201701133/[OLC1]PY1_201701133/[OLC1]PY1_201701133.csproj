@@ -51,6 +51,7 @@
     <Compile Include="Estructuras\Lista_ER.cs" />
     <Compile Include="Estructuras\Lista_LexemaE.cs" />
     <Compile Include="Estructuras\Lista_Tokens.cs" />
+    <Compile Include="Metodo_Thompo\Lista_Cerradura.cs" />
     <Compile Include="Metodo_Thompo\Lista_Transiciones.cs" />
     <Compile Include="Metodo_Thompo\Metodo_Thompson.cs" />
     <Compile Include="Form1.cs">
