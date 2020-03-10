@@ -65,6 +65,7 @@ namespace _OLC1_PY1_201701133.Estructuras
 
             //Analisis de cerradura
             Analisis_Cerradura(this.Raiz.Primero);
+            Graficar_Tabla_Transiciones();
             Graficar_AFD();
             Console.WriteLine("TRANSICICIONES AFD");
             for (int i = 0; i < L_Cerradura.Count; i++)
@@ -320,7 +321,9 @@ namespace _OLC1_PY1_201701133.Estructuras
             //primera iteracion
             Lista_Cerradura nuevo_C = new Lista_Cerradura(NumeroEstadoAFD);
             nuevo_C.Set_Contenido(Inicio);
-            Creacion_EstadoAFD(Inicio, nuevo_C);
+            //temporal sirve para eliminar el bule infinito
+            List<int> temprimero = new List<int>();
+            Creacion_EstadoAFD(Inicio, nuevo_C,temprimero);
             L_Cerradura.Add(nuevo_C);
             NumeroEstadoAFD++;
 
@@ -354,11 +357,14 @@ namespace _OLC1_PY1_201701133.Estructuras
                         Lista_Cerradura nuevo_C_ciclo = new Lista_Cerradura(NumeroEstadoAFD);
                         for (int x = 0; x < Ultima_Insertada.Count; x++)
                         {
+                            //temporal sirve para eliminar el bule infinito
+                            List<int> tem = new List<int>();
                             if (((Nodo_Transicion)Ultima_Insertada[x]).Cont_Transicion.Equals(hijos))
                             {
                                 nuevo_C_ciclo.Set_Contenido(((Nodo_Transicion)Ultima_Insertada[x]).Pos_Transicion);
-                                Creacion_EstadoAFD(((Nodo_Transicion)Ultima_Insertada[x]).Pos_Transicion, nuevo_C_ciclo);
-                                
+                                Creacion_EstadoAFD(((Nodo_Transicion)Ultima_Insertada[x]).Pos_Transicion, nuevo_C_ciclo,tem);
+                                //quitar recursividad
+                                tem.Add(((Nodo_Transicion)Ultima_Insertada[x]).Pos_Transicion);
                             }
                         }
 
@@ -413,34 +419,70 @@ namespace _OLC1_PY1_201701133.Estructuras
 
         }
 
-        public void Creacion_EstadoAFD(int Estado, Lista_Cerradura nuevo) {
+        public List<int> Creacion_EstadoAFD(int Estado, Lista_Cerradura nuevo,List<int> quitarrecursividad) {
             //primer analisis encontramos las transiciones a epsilon desde el estado inicial
             for (int posicion = 0; posicion < L_Transiciones.Count; posicion++)
             {
                 //comproamos si tiene una transicion a epsion en caso de que lo tengo llamamos al metodo pero con la nueva pos
                 if (((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero() == Estado && ((Lista_Transiciones)L_Transiciones[posicion]).Get_IdCambio().Equals("ε") && ((Lista_Transiciones)L_Transiciones[posicion]).Get_Direccion() == 0)
                 {
-                    //Creamos nuevo Estado
-                    nuevo.Set_Contenido(((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente());
-                    Creacion_EstadoAFD(((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente(), nuevo);
+
+                    //quitar recursividad
+                    Boolean bandera = false;
+                    foreach (int s in quitarrecursividad)
+                    {
+                        if (s== ((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente()) {
+                            bandera = true;
+                            break;
+                        }
+                    }
+                    if (!bandera)
+                    {
+                        //Creamos nuevo Estado
+                        quitarrecursividad.Add(((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente());
+                        nuevo.Set_Contenido(((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente());
+                        quitarrecursividad= Creacion_EstadoAFD(((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente(), nuevo, quitarrecursividad);
+                        
+                    }
+                    
+
                 }
                 else if (!((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente().Equals(null))
                 {
                     if (((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente() == Estado && ((Lista_Transiciones)L_Transiciones[posicion]).Get_IdCambio().Equals("ε") && ((Lista_Transiciones)L_Transiciones[posicion]).Get_Direccion() == 1)
                     {
-                        //lo mismo que el de arria pero con direccion contraria
-                        nuevo.Set_Contenido(((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero());
-                        Creacion_EstadoAFD(((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero(), nuevo);
+                        //quitar recursividad
+                        Boolean bandera = false;
+                        foreach (int s in quitarrecursividad)
+                        {
+                            if (s == ((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero())
+                            {
+                                bandera = true;
+                                break;
+                            }
+                        }
+                        if (!bandera)
+                        {
+                            //lo mismo que el de arria pero con direccion contraria
+                            quitarrecursividad.Add(((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero());
+                            nuevo.Set_Contenido(((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero());
+                            quitarrecursividad =  Creacion_EstadoAFD(((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero(), nuevo, quitarrecursividad);
+                            
+                        }
+                        
+                        
                     }
                     if (((Lista_Transiciones)L_Transiciones[posicion]).Get_Primero() == Estado && !((Lista_Transiciones)L_Transiciones[posicion]).Get_IdCambio().Equals("ε"))
                     {
                         //llenamos hacia donde va 
                         nuevo.Set_Transicion(((Lista_Transiciones)L_Transiciones[posicion]).Get_IdCambio(), ((Lista_Transiciones)L_Transiciones[posicion]).Get_Siguiente());
+                        
                     }
 
                 }
 
             }
+            return quitarrecursividad;
         }
 
         public void Graficar_AFD() {
@@ -499,6 +541,70 @@ namespace _OLC1_PY1_201701133.Estructuras
             }
             String comando = "dot -Tpng AFD" + Nombre_ER + ".dot -o AFD" + Nombre_ER + ".png";
             EjecutarComandoCMD(comando);
+        }
+
+        public void Graficar_Tabla_Transiciones() {
+            String CadenaImprimir = "<html>" + "<body>" + "<h1 align='center'>TABLA TRANSICICIONES: " + Nombre_ER + "</h1></br>" + "<table cellpadding='10' border = '1' align='center'>" + '\n';
+            //agregar encabezados 
+            CadenaImprimir += " <tr><td><b>Estado</b></td>";
+            foreach (String nodo in NodoHijos)
+            {
+                CadenaImprimir += "<td><b>"+nodo+"</b></td>";
+            }
+            CadenaImprimir+= "</tr>" + '\n';
+            //Creacion de Contenido
+            for (int i = 0; i < L_Cerradura.Count; i++)
+            {
+                CadenaImprimir += " <tr><td><b> S"+ ((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado() + "</b></td>";
+                //Direcciones
+                ArrayList pruebaA = ((Lista_Cerradura)L_Cerradura[i]).Transiciones;
+                foreach (String nodo in NodoHijos)
+                {
+                    Boolean bandera = false;
+                    int posfinal=0;
+                    for (int x = 0; x < ((Lista_Cerradura)L_Cerradura[i]).Transicion_Final.Count; x++)
+                    {
+                        if (((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado().Equals(i)) {
+                            //encontramos fila
+                            Nodo_Transicion Nodo_T = ((Lista_Cerradura)L_Cerradura[i]).Transicion_Final[x];
+                            string tem = Nodo_T.Cont_Transicion;
+                            if (tem.Equals(nodo)) {
+                                //encontramos columna
+                                bandera = true;
+                                posfinal = Nodo_T.Pos_Transicion;
+                                break;
+                            }
+                        }
+                    }
+                    if (bandera)
+                    {
+                        CadenaImprimir += "<td><b>S" + posfinal + "</b></td>";
+                    }
+                    else {
+                        CadenaImprimir += "<td><b> </b></td>";
+                    }
+
+                }
+                
+                CadenaImprimir += "</tr>" + '\n';
+            }
+
+            //Creacion del HTML
+            string path = @"Reporte_Transicion_" + Nombre_ER + ".html";
+            try
+            {
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(CadenaImprimir);
+                    fs.Write(info, 0, info.Length);
+                }
+                //Process.Start(path);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         public void EjecutarComandoCMD(String comando) {

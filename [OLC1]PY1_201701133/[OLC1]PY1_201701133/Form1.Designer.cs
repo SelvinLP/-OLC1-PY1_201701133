@@ -53,9 +53,11 @@
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lexicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mostrarAFNDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mostrarAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.mostrarAFNDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tablaTransicionesAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -228,7 +230,7 @@
             // analisisLeicoToolStripMenuItem
             // 
             this.analisisLeicoToolStripMenuItem.Name = "analisisLeicoToolStripMenuItem";
-            this.analisisLeicoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.analisisLeicoToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.analisisLeicoToolStripMenuItem.Text = "&Analisis Lexico";
             this.analisisLeicoToolStripMenuItem.Click += new System.EventHandler(this.analisisLeicoToolStripMenuItem_Click);
             // 
@@ -237,7 +239,9 @@
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lexicoToolStripMenuItem,
             this.erroresToolStripMenuItem,
-            this.mostrarAFNDToolStripMenuItem});
+            this.mostrarAFNDToolStripMenuItem,
+            this.mostrarAFDToolStripMenuItem,
+            this.tablaTransicionesAFDToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.reportesToolStripMenuItem.Text = "&Reportes";
@@ -246,16 +250,30 @@
             // lexicoToolStripMenuItem
             // 
             this.lexicoToolStripMenuItem.Name = "lexicoToolStripMenuItem";
-            this.lexicoToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.lexicoToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.lexicoToolStripMenuItem.Text = "&Reporte &Lexico";
             this.lexicoToolStripMenuItem.Click += new System.EventHandler(this.lexicoToolStripMenuItem_Click);
             // 
             // erroresToolStripMenuItem
             // 
             this.erroresToolStripMenuItem.Name = "erroresToolStripMenuItem";
-            this.erroresToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.erroresToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.erroresToolStripMenuItem.Text = "&Reporte &Errores";
             this.erroresToolStripMenuItem.Click += new System.EventHandler(this.erroresToolStripMenuItem_Click);
+            // 
+            // mostrarAFNDToolStripMenuItem
+            // 
+            this.mostrarAFNDToolStripMenuItem.Name = "mostrarAFNDToolStripMenuItem";
+            this.mostrarAFNDToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.mostrarAFNDToolStripMenuItem.Text = "Mostrar &AFND";
+            this.mostrarAFNDToolStripMenuItem.Click += new System.EventHandler(this.mostrarAFNDToolStripMenuItem_Click);
+            // 
+            // mostrarAFDToolStripMenuItem
+            // 
+            this.mostrarAFDToolStripMenuItem.Name = "mostrarAFDToolStripMenuItem";
+            this.mostrarAFDToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.mostrarAFDToolStripMenuItem.Text = "Mostrar &AFD";
+            this.mostrarAFDToolStripMenuItem.Click += new System.EventHandler(this.mostrarAFDToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -272,12 +290,12 @@
             this.treeView1.Size = new System.Drawing.Size(131, 379);
             this.treeView1.TabIndex = 2;
             // 
-            // mostrarAFNDToolStripMenuItem
+            // tablaTransicionesAFDToolStripMenuItem
             // 
-            this.mostrarAFNDToolStripMenuItem.Name = "mostrarAFNDToolStripMenuItem";
-            this.mostrarAFNDToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.mostrarAFNDToolStripMenuItem.Text = "Mostrar &AFND";
-            this.mostrarAFNDToolStripMenuItem.Click += new System.EventHandler(this.mostrarAFNDToolStripMenuItem_Click);
+            this.tablaTransicionesAFDToolStripMenuItem.Name = "tablaTransicionesAFDToolStripMenuItem";
+            this.tablaTransicionesAFDToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.tablaTransicionesAFDToolStripMenuItem.Text = "Tabla &Transiciones AFD";
+            this.tablaTransicionesAFDToolStripMenuItem.Click += new System.EventHandler(this.tablaTransicionesAFDToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -330,6 +348,8 @@
         private System.Windows.Forms.ToolStripMenuItem analisisLeicoToolStripMenuItem;
         public System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ToolStripMenuItem mostrarAFNDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mostrarAFDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tablaTransicionesAFDToolStripMenuItem;
     }
 }
 

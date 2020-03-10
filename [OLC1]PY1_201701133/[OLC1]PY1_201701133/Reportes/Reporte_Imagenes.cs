@@ -14,6 +14,7 @@ namespace _OLC1_PY1_201701133.Reportes
 {
     public partial class Reporte_Imagenes : Form
     {
+        public int AFND_AFD;//0 si es anfd y 1 si es afd
         int tamañomaximo = 0;
         int pos = 0;
         ArrayList EXP_R;
@@ -30,7 +31,15 @@ namespace _OLC1_PY1_201701133.Reportes
             if (pos<tamañomaximo) {
                 pictureBox1.Image = null;
                 Bitmap MyImage;
-                MyImage = new Bitmap("AFND" + ((Lista_ER)EXP_R[pos]).getNombre() + ".png");
+                String AFD_O_AFND;
+                if (AFND_AFD == 0)
+                {
+                    AFD_O_AFND = "AFND";
+                }
+                else {
+                    AFD_O_AFND = "AFD";
+                }
+                MyImage = new Bitmap(AFD_O_AFND + ((Lista_ER)EXP_R[pos]).getNombre() + ".png");
                 pictureBox1.Image = (Image)MyImage;
             }else
             {
@@ -51,7 +60,16 @@ namespace _OLC1_PY1_201701133.Reportes
             {
                 pictureBox1.Image = null;
                 Bitmap MyImage;
-                MyImage = new Bitmap("AFND" + ((Lista_ER)EXP_R[pos]).getNombre() + ".png");
+                String AFD_O_AFND;
+                if (AFND_AFD == 0)
+                {
+                    AFD_O_AFND = "AFND";
+                }
+                else
+                {
+                    AFD_O_AFND = "AFD";
+                }
+                MyImage = new Bitmap(AFD_O_AFND + ((Lista_ER)EXP_R[pos]).getNombre() + ".png");
                 pictureBox1.Image = (Image)MyImage;
             }
             else {

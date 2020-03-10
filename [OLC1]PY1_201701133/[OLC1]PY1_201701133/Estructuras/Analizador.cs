@@ -385,21 +385,30 @@ namespace _OLC1_PY1_201701133.Estructuras
                         }
                         break;
                     case 7:
-                        //Comentario Multilinea acepta hasta comilla dobles
+                        //acepta hasta comilla dobles (Lexema)
                         if (Caracter != (char)34)
                         {
                             Lexema += Caracter;
                             Estado = 7;
+
                         }
                         else
                         {
-                            Lista_T.Add(new Lista_Tokens(4, Lexema, "Lexema de Entrada", Fila, Columna));
-                            Columna++;
-                            Lexema = "";
-                            Estado = 0;
-                            //aceptamos las comillas
-                            Lista_T.Add(new Lista_Tokens(7, Caracter.ToString(), "Comillas Dobles", Fila, Columna));
-                            Columna++;
+                            if (i > 0 && Cadena_Archivo[i - 1] == (char)92)
+                            {
+                                Lexema += Caracter;
+                            }
+                            else
+                            {
+                                Lista_T.Add(new Lista_Tokens(4, Lexema, "Lexema de Entrada", Fila, Columna));
+                                Columna++;
+                                Lexema = "";
+                                Estado = 0;
+                                //aceptamos las comillas
+                                Lista_T.Add(new Lista_Tokens(7, Caracter.ToString(), "Comillas Dobles", Fila, Columna));
+                                Columna++;
+                            }
+                            
                         }
                         break;
                     case 8:
@@ -470,6 +479,14 @@ namespace _OLC1_PY1_201701133.Estructuras
                                     Lexema = "";
                                     i = i - saltolineallaves;
                                 }
+                            }
+                            if (Caracter == '\n') {
+                                //debe salir porque hay salto de linea
+                                Lista_T.Add(new Lista_Tokens(28, "[", "Corchete Izquierdo", Fila, Columna));
+                                Estado = 0;
+                                Columna++;
+                                Lexema = "";
+                                i = i - saltolineallaves;
                             }
                             
                         }
@@ -657,6 +674,28 @@ namespace _OLC1_PY1_201701133.Estructuras
                                 tem1 = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
                                 Nuevo.setER(tem1);
                             }
+                        }
+                        //caracteres especiales
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Tabulacion"))
+                        {
+                            Nuevo.setER("OP:Tabulacion");
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Salto Linea"))
+                        {
+                            Console.WriteLine("RECONOCIdo");
+                            Nuevo.setER("OP:Salto_Linea");
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Comilla Simple"))
+                        {
+                            Nuevo.setER("\'");
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Comilla Doble"))
+                        {
+                            Nuevo.setER("\"");
+                        }
+                        if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial [:TODO:]"))
+                        {
+                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
                         }
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(";"))
                         {

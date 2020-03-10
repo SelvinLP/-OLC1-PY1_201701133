@@ -124,7 +124,7 @@ namespace _OLC1_PY1_201701133
             //Jtree
             treeView1.Nodes.Clear();
             treeView1.Nodes.Add("AFND");
-
+            treeView1.Nodes.Add("AFD");
             //Seleccion de contenido del ritch actual
             TabPage selectedTab = this.tabControl1.SelectedTab;
             RichTextBox selectedRtb = selectedTab.Controls.Find("rtb", true).First() as RichTextBox;
@@ -142,7 +142,7 @@ namespace _OLC1_PY1_201701133
                 Analizador_Thompson.Analizar_Metodo(((Lista_ER)Lista_Expresiones_R[no]).getNombre(), ((Lista_ER)Lista_Expresiones_R[no]).getER());
                 //agregar al Tree
                 treeView1.Nodes[0].Nodes.Add("AFND"+((Lista_ER)Lista_Expresiones_R[no]).getNombre());
-                
+                treeView1.Nodes[1].Nodes.Add("AFD" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
             }           
 
             //for (int i = 0; i < Lista_Conjuntos.Count; i++)
@@ -197,6 +197,7 @@ namespace _OLC1_PY1_201701133
                 MyImage = new Bitmap("AFND" + ((Lista_ER)Lista_Expresiones_R[Posicion_AFND]).getNombre() + ".png");
                 R_I.pictureBox1.Image = (Image)MyImage;
                 R_I.RecibirTamañoyLista(Lista_Expresiones_R.Count,Lista_Expresiones_R);
+                R_I.AFND_AFD = 0;
                 R_I.Show();
             }
             else
@@ -204,6 +205,46 @@ namespace _OLC1_PY1_201701133
                 MessageBox.Show("No Hay Imagenes Cargadas");
             }
             
+        }
+
+        private void mostrarAFDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reporte_Imagenes R_I = new Reporte_Imagenes();
+            Posicion_AFND = 0;
+            
+            if (Lista_Expresiones_R.Count != 0)
+            {
+                Bitmap MyImage;
+                MyImage = new Bitmap("AFD" + ((Lista_ER)Lista_Expresiones_R[Posicion_AFND]).getNombre() + ".png");
+                R_I.pictureBox1.Image = (Image)MyImage;
+                R_I.RecibirTamañoyLista(Lista_Expresiones_R.Count, Lista_Expresiones_R);
+                R_I.AFND_AFD = 1;
+                R_I.Show();
+            }
+            else
+            {
+                MessageBox.Show("No Hay Imagenes Cargadas");
+            }
+
+        }
+
+        private void tablaTransicionesAFDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            if (Lista_Expresiones_R.Count != 0)
+            {
+                Tabla_TransicionesAFD Tab_Tras = new Tabla_TransicionesAFD();
+                Posicion_AFND = 0;
+                Tab_Tras.webBrowser1.AllowWebBrowserDrop = false;
+                String path = "Reporte_Transicion_"+ ((Lista_ER)Lista_Expresiones_R[0]).getNombre()+".html";
+                Tab_Tras.webBrowser1.DocumentText = File.ReadAllText(path);
+                Tab_Tras.RecibirTamañoyLista(Lista_Expresiones_R.Count, Lista_Expresiones_R);
+                Tab_Tras.Show();
+            }
+            else
+            {
+                MessageBox.Show("No Hay Tablas Cargados");
+            }
         }
     }
 }

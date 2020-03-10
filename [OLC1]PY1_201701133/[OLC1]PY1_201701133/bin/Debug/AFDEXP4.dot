@@ -1,0 +1,37 @@
+digraph AFD { 
+graph [label="AFD: EXP4", labelloc=t, fontsize=20];
+rankdir=LR;
+edge [color=blue];
+node [color = mediumseagreen];
+"S0"[ label=S0 ]
+"S1"[ label=S1 ]
+"S2"[ label=S2 ]
+"S3"[ label=S3 ]
+"S4"[ label=S4 ]
+"S5"[ label=S5 ]
+"S6"[ label=S6 ]
+"S7"[ label=S7 ]
+"S8"[ label=S8 ]
+"S9"[ label=S9 ]
+"S9"[peripheries=2]secret_node [style=invis]; 
+ secret_node->"S0"[label = "inicio"]; 
+"S0"->"S1"[label="{abecedario}" ];
+"S0"->"S2"[label="\"_\"" ];
+"S0"->"S3"[label="{conjnum}" ];
+"S1"->"S1"[label="{abecedario}" ];
+"S1"->"S2"[label="\"_\"" ];
+"S1"->"S3"[label="{conjnum}" ];
+"S2"->"S1"[label="{abecedario}" ];
+"S2"->"S2"[label="\"_\"" ];
+"S2"->"S3"[label="{conjnum}" ];
+"S3"->"S3"[label="{conjnum}" ];
+"S3"->"S4"[label="\">\"" ];
+"S4"->"S5"[label="{conjnum}" ];
+"S5"->"S5"[label="{conjnum}" ];
+"S5"->"S6"[label="\" \"" ];
+"S6"->"S7"[label="\"TRUE\"" ];
+"S6"->"S8"[label="\"FALSE\"" ];
+"S7"->"S9"[label="\".\"" ];
+"S8"->"S9"[label="\".\"" ];
+
+}
