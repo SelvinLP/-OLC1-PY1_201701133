@@ -1,0 +1,11 @@
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\bin\Release\[OLC1]PY1_201701133.exe.config
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\bin\Release\[OLC1]PY1_201701133.exe
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\bin\Release\[OLC1]PY1_201701133.pdb
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\_OLC1_PY1_201701133.Form1.resources
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\_OLC1_PY1_201701133.Properties.Resources.resources
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\_OLC1_PY1_201701133.Reportes.Reporte_Imagenes.resources
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\_OLC1_PY1_201701133.Reportes.Tabla_Tokens.resources
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\_OLC1_PY1_201701133.Reportes.Tabla_TransicionesAFD.resources
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\[OLC1]PY1_201701133.csproj.GenerateResource.Cache
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\[OLC1]PY1_201701133.exe
+C:\Users\Aragon Perez\Documents\Compiladores 1\[OLC1]Proyecto1_201701133\-OLC1-PY1_201701133\[OLC1]PY1_201701133\[OLC1]PY1_201701133\obj\Release\[OLC1]PY1_201701133.pdb

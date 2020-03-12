@@ -562,7 +562,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                             if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
                             {
                                 Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
-                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido,"Rango"));
                                 x = x + 2;
                                 Estado = 0;
                             }
@@ -573,7 +573,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                             if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
                             {
                                 Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
-                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
                                 x = x + 2;
                                 Estado = 0;
                             }
@@ -586,7 +586,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                                 if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
                                 {
                                     Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
-                                    Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                    Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
                                     x = x + 2;
                                     Estado = 0;
                                 }
@@ -601,7 +601,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                             }
                             else
                             {
-                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido));
+                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Por Comas"));
                                 Estado = 0;
                                 Contenido = "";
 
@@ -764,6 +764,11 @@ namespace _OLC1_PY1_201701133.Estructuras
                 tem.Add(Lista_CJ[x]);
 
             }
+        }
+
+        public ArrayList GetArrayLista_ExpE()
+        {
+            return Lista_ExpE;
         }
 
         public void Graficar_Tabla_Tokens(Boolean Tokens_o_Error) {

@@ -67,22 +67,7 @@ namespace _OLC1_PY1_201701133.Estructuras
             Analisis_Cerradura(this.Raiz.Primero);
             Graficar_Tabla_Transiciones();
             Graficar_AFD();
-            Console.WriteLine("TRANSICICIONES AFD");
-            for (int i = 0; i < L_Cerradura.Count; i++)
-            {
-                Console.Write("S"+((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado()+": ");
-                List<int> prueba = ((Lista_Cerradura)L_Cerradura[i]).Estados_Epsilon;
-                foreach (int s in prueba) {
-                    Console.Write(" "+s);
-                }
-                Console.WriteLine();
-                Console.WriteLine("Direcciones");
-                ArrayList pruebaA = ((Lista_Cerradura)L_Cerradura[i]).Transiciones;
-                for (int x=0;x<pruebaA.Count;x++) {
-                    Console.WriteLine("Contenido: "+((Nodo_Transicion)pruebaA[x]).Cont_Transicion+"Hacia: "+ ((Nodo_Transicion)pruebaA[x]).Pos_Transicion);
-                }
-                    
-            }
+            //Console.WriteLine("TRANSICICIONES AFD");
         }
 
         //creacion de arbol
@@ -291,6 +276,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                     direccion = ",dir=back";
                 }
                 string tem = ((Lista_Transiciones)L_Transiciones[i]).Get_IdCambio();
+                tem = tem.Replace("\\\"", "\"");
                 tem = tem.Replace("\"", "\\\"");
                 CadenaImprimir += "\"S" + ((Lista_Transiciones)L_Transiciones[i]).Get_Primero() + "\"" + "->\"S" + ((Lista_Transiciones)L_Transiciones[i]).Get_Siguiente() + "\"" + "[label=\"" + tem + "\" " + direccion + "];" + '\n';
             }
@@ -515,7 +501,10 @@ namespace _OLC1_PY1_201701133.Estructuras
                     CadenaImprimir += "\"S" + ((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado() + "\"" + "->\"S";
                     Nodo_Transicion Nodo_T = ((Lista_Cerradura)L_Cerradura[i]).Transicion_Final[x];
                     string tem = Nodo_T.Cont_Transicion;
+
+                    tem=tem.Replace("\\\"", "\"");
                     tem = tem.Replace("\"", "\\\"");
+                    
                     CadenaImprimir += Nodo_T.Pos_Transicion + "\"" + "[label=\"" +tem + "\" ];" + '\n';
                 }
 
@@ -555,9 +544,17 @@ namespace _OLC1_PY1_201701133.Estructuras
             //Creacion de Contenido
             for (int i = 0; i < L_Cerradura.Count; i++)
             {
-                CadenaImprimir += " <tr><td><b> S"+ ((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado() + "</b></td>";
+                String estadosepsion = "";
+                List<int> epsilon = ((Lista_Cerradura)L_Cerradura[i]).Estados_Epsilon;
+                epsilon.Sort();
+                Boolean quitarcomar = true;
+                foreach (int cambio in epsilon)
+                {
+                    if (quitarcomar == true) { estadosepsion += +cambio; quitarcomar = false; } else { estadosepsion += "," + cambio; }
+                }
+
+                CadenaImprimir += " <tr><td><b> S"+ ((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado() + "={"+estadosepsion+"} </b></td>";
                 //Direcciones
-                ArrayList pruebaA = ((Lista_Cerradura)L_Cerradura[i]).Transiciones;
                 foreach (String nodo in NodoHijos)
                 {
                     Boolean bandera = false;
@@ -605,6 +602,85 @@ namespace _OLC1_PY1_201701133.Estructuras
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        public String[,] Get_Tabla_Transiciones() {
+            String[,] Nueva_tabla = new String[50,50];
+            //Colocacion de Encabezados
+            int Iterador_Encabezado=1;
+            foreach (String nodo in NodoHijos)
+            {
+                Nueva_tabla[0,Iterador_Encabezado] = nodo;
+                Iterador_Encabezado++;
+            }
+            //Colocacion de estados
+            for (int i = 0; i < L_Cerradura.Count; i++)
+            {
+                Nueva_tabla[i+1, 0] = ((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado().ToString();
+            }
+            //Creacion de Contenido
+            int pos_y = 1;
+            for (int i = 0; i < L_Cerradura.Count; i++)
+            {
+                //Direcciones
+                int pos_x = 1;
+                foreach (String nodo in NodoHijos)
+                {
+                    
+                    Boolean bandera = false;
+                    int posfinal = 0;
+                    for (int x = 0; x < ((Lista_Cerradura)L_Cerradura[i]).Transicion_Final.Count; x++)
+                    {
+                        if (((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado().Equals(i))
+                        {
+                            //encontramos fila
+                            Nodo_Transicion Nodo_T = ((Lista_Cerradura)L_Cerradura[i]).Transicion_Final[x];
+                            string tem = Nodo_T.Cont_Transicion;
+                            if (tem.Equals(nodo))
+                            {
+                                //encontramos columna
+                                bandera = true;
+                                posfinal = Nodo_T.Pos_Transicion;
+                                break;
+                            }
+                        }
+                    }
+                    if (bandera)
+                    {
+                        Nueva_tabla[pos_y, pos_x] = posfinal.ToString();
+                        //Console.WriteLine("pos: " + pos_x + ":" + pos_y+"}"+posfinal.ToString());
+                    }
+                    
+                    pos_x++;
+                }
+                pos_y++;
+
+            }
+            return Nueva_tabla;
+            //recorremos arraypara ver si se inserto bien
+            //for (int re_y = 0; re_y < 50; re_y++)
+            //{
+            //    if (Nueva_tabla[re_y, 0] != null || re_y==0)
+            //    {
+            //        Console.Write("Estado " + Nueva_tabla[re_y, 0] + ": ");
+            //        for (int re_x = 1; re_x < 50; re_x++)
+            //        {
+            //            if (Nueva_tabla[re_y, re_x] != null) {
+            //                Console.Write("-" + Nueva_tabla[re_y, re_x]);
+            //            }
+                       
+
+
+            //        }
+            //        Console.WriteLine();
+            //    }
+            //    else { break; }
+            //}
+        }
+
+        public int Get_Numero_Hijos() {
+            int hijos = NodoHijos.Count;
+            return hijos;
         }
 
         public void EjecutarComandoCMD(String comando) {

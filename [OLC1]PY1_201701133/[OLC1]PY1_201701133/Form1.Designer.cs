@@ -55,9 +55,10 @@
             this.erroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mostrarAFNDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mostrarAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tablaTransicionesAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.tablaTransicionesAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analisisDeLexemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -222,7 +223,8 @@
             // analisisToolStripMenuItem
             // 
             this.analisisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.analisisLeicoToolStripMenuItem});
+            this.analisisLeicoToolStripMenuItem,
+            this.analisisDeLexemaToolStripMenuItem});
             this.analisisToolStripMenuItem.Name = "analisisToolStripMenuItem";
             this.analisisToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.analisisToolStripMenuItem.Text = "&Analisis";
@@ -230,7 +232,7 @@
             // analisisLeicoToolStripMenuItem
             // 
             this.analisisLeicoToolStripMenuItem.Name = "analisisLeicoToolStripMenuItem";
-            this.analisisLeicoToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.analisisLeicoToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.analisisLeicoToolStripMenuItem.Text = "&Analisis Lexico";
             this.analisisLeicoToolStripMenuItem.Click += new System.EventHandler(this.analisisLeicoToolStripMenuItem_Click);
             // 
@@ -275,6 +277,13 @@
             this.mostrarAFDToolStripMenuItem.Text = "Mostrar &AFD";
             this.mostrarAFDToolStripMenuItem.Click += new System.EventHandler(this.mostrarAFDToolStripMenuItem_Click);
             // 
+            // tablaTransicionesAFDToolStripMenuItem
+            // 
+            this.tablaTransicionesAFDToolStripMenuItem.Name = "tablaTransicionesAFDToolStripMenuItem";
+            this.tablaTransicionesAFDToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.tablaTransicionesAFDToolStripMenuItem.Text = "Tabla &Transiciones AFD";
+            this.tablaTransicionesAFDToolStripMenuItem.Click += new System.EventHandler(this.tablaTransicionesAFDToolStripMenuItem_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
@@ -290,12 +299,12 @@
             this.treeView1.Size = new System.Drawing.Size(131, 379);
             this.treeView1.TabIndex = 2;
             // 
-            // tablaTransicionesAFDToolStripMenuItem
+            // analisisDeLexemaToolStripMenuItem
             // 
-            this.tablaTransicionesAFDToolStripMenuItem.Name = "tablaTransicionesAFDToolStripMenuItem";
-            this.tablaTransicionesAFDToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.tablaTransicionesAFDToolStripMenuItem.Text = "Tabla &Transiciones AFD";
-            this.tablaTransicionesAFDToolStripMenuItem.Click += new System.EventHandler(this.tablaTransicionesAFDToolStripMenuItem_Click);
+            this.analisisDeLexemaToolStripMenuItem.Name = "analisisDeLexemaToolStripMenuItem";
+            this.analisisDeLexemaToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.analisisDeLexemaToolStripMenuItem.Text = "Analisis de &Lexema";
+            this.analisisDeLexemaToolStripMenuItem.Click += new System.EventHandler(this.analisisDeLexemaToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -350,6 +359,7 @@
         private System.Windows.Forms.ToolStripMenuItem mostrarAFNDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mostrarAFDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tablaTransicionesAFDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem analisisDeLexemaToolStripMenuItem;
     }
 }
 

@@ -12,6 +12,7 @@ using System.IO;
 using System.Collections;
 using _OLC1_PY1_201701133.Estructuras;
 using _OLC1_PY1_201701133.Reportes;
+using _OLC1_PY1_201701133.Analizador_Lexema;
 
 namespace _OLC1_PY1_201701133
 {
@@ -20,6 +21,7 @@ namespace _OLC1_PY1_201701133
         //creacion de lista tokens
         ArrayList Lista_Expresiones_R;
         ArrayList Lista_Conjuntos;
+        List<String[,]> Lista_Tabla_Transiciones;
         //Analizador
         Analizador Analizadores;
         //controlador de Imagenes AFND
@@ -30,7 +32,8 @@ namespace _OLC1_PY1_201701133
 
             Lista_Expresiones_R = new ArrayList();
             Lista_Conjuntos = new ArrayList();
-            Lista_Expresiones_R = new ArrayList();
+            Lista_Tabla_Transiciones = new List<String[,]>();
+
             Posicion_AFND = 0;
         }
 
@@ -125,6 +128,7 @@ namespace _OLC1_PY1_201701133
             treeView1.Nodes.Clear();
             treeView1.Nodes.Add("AFND");
             treeView1.Nodes.Add("AFD");
+            treeView1.Nodes.Add("TABLA_TRANSICIONES");
             //Seleccion de contenido del ritch actual
             TabPage selectedTab = this.tabControl1.SelectedTab;
             RichTextBox selectedRtb = selectedTab.Controls.Find("rtb", true).First() as RichTextBox;
@@ -137,19 +141,26 @@ namespace _OLC1_PY1_201701133
             Analizadores.GetArrayLista_ER(Lista_Expresiones_R);
             Analizadores.GetArrayLista_CJ(Lista_Conjuntos);
             //Generadores de Thompson
+            #region thompson
+            Lista_Tabla_Transiciones.Clear();
             for (int no=0;no<Lista_Expresiones_R.Count;no++) {
                 Metodo_Thompson Analizador_Thompson = new Metodo_Thompson();
                 Analizador_Thompson.Analizar_Metodo(((Lista_ER)Lista_Expresiones_R[no]).getNombre(), ((Lista_ER)Lista_Expresiones_R[no]).getER());
+
+                
+                Lista_Tabla_Transiciones.Add(Analizador_Thompson.Get_Tabla_Transiciones());
                 //agregar al Tree
-                treeView1.Nodes[0].Nodes.Add("AFND"+((Lista_ER)Lista_Expresiones_R[no]).getNombre());
-                treeView1.Nodes[1].Nodes.Add("AFD" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
-            }           
+                treeView1.Nodes[0].Nodes.Add("AFND_"+((Lista_ER)Lista_Expresiones_R[no]).getNombre());
+                treeView1.Nodes[1].Nodes.Add("AFD_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
+                treeView1.Nodes[2].Nodes.Add("TABLA_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
+            }
+            #endregion
 
             //for (int i = 0; i < Lista_Conjuntos.Count; i++)
             //{
             //    Console.WriteLine("NOMBRE DEL CONJUNTO: " + ((Lista_Conjuntos)Lista_Conjuntos[i]).getNombre() + "\t CONTENIDO: " + ((Lista_Conjuntos)Lista_Conjuntos[i]).getContenido());
             //}
-            //MessageBox.Show("Analisis Completado");
+
 
         }
 
@@ -244,6 +255,29 @@ namespace _OLC1_PY1_201701133
             else
             {
                 MessageBox.Show("No Hay Tablas Cargados");
+            }
+        }
+
+        private void analisisDeLexemaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Analisar lexemas
+            ArrayList Lexemas = Analizadores.GetArrayLista_ExpE();
+            //comprobamos con que expresion regular se debe analizar
+            for (int pos_nombre = 0; pos_nombre < Lista_Expresiones_R.Count; pos_nombre++)
+            {
+                String Nombre_ER = ((Lista_ER)Lista_Expresiones_R[pos_nombre]).getNombre();
+                for (int pos_nombre_lex = 0; pos_nombre_lex < Lexemas.Count; pos_nombre_lex++)
+                {
+                    String Nombre_Lex = ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getNombre();
+                    if (Nombre_Lex.Equals(Nombre_ER))
+                    {
+                        //se mandan a analizar
+                        Analizador_Lexema_Entrada Metodo_Analizador_LexE = new Analizador_Lexema_Entrada(((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(),Lista_Tabla_Transiciones[pos_nombre],Lista_Conjuntos);
+                        Metodo_Analizador_LexE.NombreXML = Nombre_ER;
+                        Metodo_Analizador_LexE.Analizar_Lexema_Entrada();
+                        
+                    }
+                }
             }
         }
     }

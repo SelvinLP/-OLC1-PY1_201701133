@@ -4,10 +4,10 @@
 //sets
 CONJ: V -> a,e,i,o,u;
 CONJ: A -> a~z;
-CONJ: D -> 0~9;
+CONJ: D -> 10~99;
 
 //regexp
-rex1 -> .+|{V}"_"{D};
+rex1 -> .+|{A}"_"{D};
 rex2 -> .+{D}*.||"+""-"|"*""/"+{D};
 rex3 -> ........*" ""i""f"*" "+{A}*" "||"=""<"">"*" "+{D};
 
@@ -16,7 +16,7 @@ rex3 -> ........*" ""i""f"*" "+{A}*" "||"=""<"">"*" "+{D};
 
 exp1 : "ae_io"; 
 //validacion exitosa del lexema
-rex1 : "uaei1";
+rex1 : "uaei21";
 rex1 : "abe2";
 //validacion exitosa del lexema
 rex3 : "if juan <  2";

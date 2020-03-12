@@ -10,10 +10,12 @@ namespace _OLC1_PY1_201701133.Estructuras
     {
         private String Nombre;
         private String Contenido;
-        public Lista_Conjuntos(String nombre, String contenido)
+        private String Tipo_Conjunto;
+        public Lista_Conjuntos(String nombre, String contenido,String Tipo_CJ)
         {
             this.Nombre = nombre;
             this.Contenido = contenido;
+            this.Tipo_Conjunto = Tipo_CJ;
         }
         public String getNombre()
         {
@@ -22,6 +24,9 @@ namespace _OLC1_PY1_201701133.Estructuras
         public String getContenido()
         {
             return Contenido;
+        }
+        public String getTipo_Conjunto() {
+            return Tipo_Conjunto;
         }
     }
 }

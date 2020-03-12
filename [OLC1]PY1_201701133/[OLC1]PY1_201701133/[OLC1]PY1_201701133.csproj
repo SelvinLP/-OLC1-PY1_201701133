@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analizador_Lexema\Analizador_Lexema_Entrada.cs" />
+    <Compile Include="Analizador_Lexema\Tokens_Reconocidos.cs" />
     <Compile Include="Estructuras\Analizador.cs" />
     <Compile Include="Estructuras\Lista_Conjuntos.cs" />
     <Compile Include="Estructuras\Lista_ER.cs" />
