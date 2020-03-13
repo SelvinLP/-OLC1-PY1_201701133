@@ -71,6 +71,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                     else
                     {
                         //comparamos si pertenece o tiene una transicion a alguno de estos casos
+                        #region Comprobacion de Casos
                         char var = Tabla_Transiciones[0,x+1][0];
                         String tem = Tabla_Transiciones[0, x + 1];
                         String Nombre = "";
@@ -90,6 +91,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             }
                             
                         }
+#endregion
                         #region Cadena
                         //Cadena
                         if (var == (char)34)
@@ -100,7 +102,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 pos++;
                                 try
                                 {
-                                    cad += Cadena_Lexema[con].ToString();
+                                    cad += Cadena_Lexema[pos].ToString();
                                 }
                                 catch {
                                 }
@@ -127,7 +129,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             }
                         }
                         #endregion
-
 
                         //Conjunto
                         int tipo_Conjunto = 0;
@@ -239,6 +240,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 }
                             }
                             #endregion
+                            #region Conjunto por Comas
                             else
                             {
                                 //conjunto por comas {,,,}
@@ -282,18 +284,16 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
                                     Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     Insertado = 1;
-                                    Columna++;
                                     break;
                                 }
                                 else
                                 {
-                                    Columna++;
                                     Console.WriteLine("-No valido Conjunto-");
                                     Insertado = 0;
                                 }
                             }
 
-
+                            #endregion
                         }//fin conjuntos
 
                     }
@@ -301,14 +301,26 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                 //validamos si se inserto de lo contrario
                 if (Insertado == 1)
                 {
+                    Columna++;
                     Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
                     Lista_Tokens_Rec.Add(nuevo);
                 }
                 else {
                     //no reconocio ningun token
-                    Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
-                    Lista_Tokens_NORec.Add(nuevo);
-                    bandera = false;
+                    //salto de linea
+                    if (Cadena_Lexema[pos] == '\n')
+                    {
+                        Fila++;
+                        Columna = 0;
+                    }
+                    else {
+                        //sino es salto de linea hace lo demas
+                        Columna++;
+                        Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
+                        Lista_Tokens_NORec.Add(nuevo);
+                        bandera = false;
+                    }
+                    
                 }
                 
 
