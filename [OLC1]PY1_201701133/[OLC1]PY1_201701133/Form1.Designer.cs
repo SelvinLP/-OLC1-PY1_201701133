@@ -50,6 +50,7 @@
             this.seleccionartodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analisisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analisisLeicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analisisDeLexemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lexicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.erroresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +59,8 @@
             this.tablaTransicionesAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.analisisDeLexemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reporteErroresXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -236,6 +238,13 @@
             this.analisisLeicoToolStripMenuItem.Text = "&Analisis Lexico";
             this.analisisLeicoToolStripMenuItem.Click += new System.EventHandler(this.analisisLeicoToolStripMenuItem_Click);
             // 
+            // analisisDeLexemaToolStripMenuItem
+            // 
+            this.analisisDeLexemaToolStripMenuItem.Name = "analisisDeLexemaToolStripMenuItem";
+            this.analisisDeLexemaToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.analisisDeLexemaToolStripMenuItem.Text = "Analisis de &Lexema";
+            this.analisisDeLexemaToolStripMenuItem.Click += new System.EventHandler(this.analisisDeLexemaToolStripMenuItem_Click);
+            // 
             // reportesToolStripMenuItem
             // 
             this.reportesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -243,7 +252,9 @@
             this.erroresToolStripMenuItem,
             this.mostrarAFNDToolStripMenuItem,
             this.mostrarAFDToolStripMenuItem,
-            this.tablaTransicionesAFDToolStripMenuItem});
+            this.tablaTransicionesAFDToolStripMenuItem,
+            this.reporteXMLToolStripMenuItem,
+            this.reporteErroresXMLToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.reportesToolStripMenuItem.Text = "&Reportes";
@@ -296,15 +307,22 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(517, 47);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(131, 379);
+            this.treeView1.Size = new System.Drawing.Size(144, 379);
             this.treeView1.TabIndex = 2;
             // 
-            // analisisDeLexemaToolStripMenuItem
+            // reporteXMLToolStripMenuItem
             // 
-            this.analisisDeLexemaToolStripMenuItem.Name = "analisisDeLexemaToolStripMenuItem";
-            this.analisisDeLexemaToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-            this.analisisDeLexemaToolStripMenuItem.Text = "Analisis de &Lexema";
-            this.analisisDeLexemaToolStripMenuItem.Click += new System.EventHandler(this.analisisDeLexemaToolStripMenuItem_Click);
+            this.reporteXMLToolStripMenuItem.Name = "reporteXMLToolStripMenuItem";
+            this.reporteXMLToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.reporteXMLToolStripMenuItem.Text = "Reporte &XML";
+            this.reporteXMLToolStripMenuItem.Click += new System.EventHandler(this.reporteXMLToolStripMenuItem_Click);
+            // 
+            // reporteErroresXMLToolStripMenuItem
+            // 
+            this.reporteErroresXMLToolStripMenuItem.Name = "reporteErroresXMLToolStripMenuItem";
+            this.reporteErroresXMLToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.reporteErroresXMLToolStripMenuItem.Text = "Reporte Errores &XML";
+            this.reporteErroresXMLToolStripMenuItem.Click += new System.EventHandler(this.reporteErroresXMLToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -360,6 +378,8 @@
         private System.Windows.Forms.ToolStripMenuItem mostrarAFDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tablaTransicionesAFDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem analisisDeLexemaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteXMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reporteErroresXMLToolStripMenuItem;
     }
 }
 

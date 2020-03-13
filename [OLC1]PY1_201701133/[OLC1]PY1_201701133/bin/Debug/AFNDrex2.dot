@@ -1,0 +1,56 @@
+digraph AFND { 
+graph [label="AFND: rex2", labelloc=t, fontsize=20];
+rankdir=LR;
+edge [color=blue];
+node [color = mediumseagreen];
+"S0"[ label=S0 ]
+"S1"[ label=S1 ]
+"S2"[ label=S2 ]
+"S3"[ label=S3 ]
+"S4"[ label=S4 ]
+"S5"[ label=S5 ]
+"S6"[ label=S6 ]
+"S7"[ label=S7 ]
+"S8"[ label=S8 ]
+"S9"[ label=S9 ]
+"S10"[ label=S10 ]
+"S11"[ label=S11 ]
+"S12"[ label=S12 ]
+"S13"[ label=S13 ]
+"S14"[ label=S14 ]
+"S15"[ label=S15 ]
+"S16"[ label=S16 ]
+"S17"[ label=S17 ]
+"S18"[ label=S18 ]
+"S19"[ label=S19 ]
+"S21"[ label=S21 ]
+"S0"->"S1"[label="{D}" ];
+"S2"->"S0"[label="ε" ];
+"S0"->"S1"[label="ε" ,dir=back];
+"S1"->"S3"[label="ε" ];
+"S4"->"S5"[label="\"+\"" ];
+"S6"->"S7"[label="\"-\"" ];
+"S8"->"S4"[label="ε" ];
+"S8"->"S6"[label="ε" ];
+"S5"->"S9"[label="ε" ];
+"S7"->"S9"[label="ε" ];
+"S10"->"S11"[label="\"*\"" ];
+"S12"->"S13"[label="\"/\"" ];
+"S14"->"S10"[label="ε" ];
+"S14"->"S12"[label="ε" ];
+"S11"->"S15"[label="ε" ];
+"S13"->"S15"[label="ε" ];
+"S16"->"S8"[label="ε" ];
+"S16"->"S14"[label="ε" ];
+"S9"->"S17"[label="ε" ];
+"S15"->"S17"[label="ε" ];
+"S18"->"S19"[label="{D}" ];
+"S17"->"S18"[label="ε" ];
+"S18"->"S19"[label="ε" ,dir=back];
+"S19"->"S21"[label="ε" ];
+"S3"->"S16"[label="ε" ];
+"S16"->"S21"[label="ε" ,dir=back];
+"S3"->"S23"[label="ε" ];
+"S21"->"S23"[label="ε" ];
+
+}

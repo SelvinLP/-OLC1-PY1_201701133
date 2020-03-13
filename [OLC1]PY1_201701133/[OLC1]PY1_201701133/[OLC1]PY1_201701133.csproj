@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analizador_Lexema\Analizador_Lexema_Entrada.cs" />
+    <Compile Include="Analizador_Lexema\Lista_XML.cs" />
     <Compile Include="Analizador_Lexema\Tokens_Reconocidos.cs" />
     <Compile Include="Estructuras\Analizador.cs" />
     <Compile Include="Estructuras\Lista_Conjuntos.cs" />
@@ -69,6 +70,12 @@
     </Compile>
     <Compile Include="Reportes\Reporte_Imagenes.Designer.cs">
       <DependentUpon>Reporte_Imagenes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\Reporte_XML.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\Reporte_XML.Designer.cs">
+      <DependentUpon>Reporte_XML.cs</DependentUpon>
     </Compile>
     <Compile Include="Reportes\Tabla_Tokens.cs">
       <SubType>Form</SubType>
@@ -96,6 +103,9 @@
     </Compile>
     <EmbeddedResource Include="Reportes\Reporte_Imagenes.resx">
       <DependentUpon>Reporte_Imagenes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\Reporte_XML.resx">
+      <DependentUpon>Reporte_XML.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\Tabla_Tokens.resx">
       <DependentUpon>Tabla_Tokens.cs</DependentUpon>

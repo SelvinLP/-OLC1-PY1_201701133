@@ -12,13 +12,14 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
         private String Descripcion;
         private int Fila;
         private int Columna;
-
+        List<Lista_XML> ListaXML;
         public Tokens_Reconocidos(String lexema, String descripcion, int fila, int columna)
         {
             this.Lexema = lexema;
             this.Descripcion = descripcion;
             this.Fila = fila;
             this.Columna = columna;
+            ListaXML = new List<Lista_XML>();
         }
         //metodos de acceso
         public String getLexema()

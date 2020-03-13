@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
         public String NombreXML;
         //Lista de tokens reconocidos
         List<Tokens_Reconocidos> Lista_Tokens_Rec;
+        //Lista de tokens no reconocidos
+        List<Tokens_Reconocidos> Lista_Tokens_NORec;
         public Analizador_Lexema_Entrada(String Cadena, String[,] Tabla_Trans,ArrayList Conj)
         {
             this.Cadena_Lexema = Cadena;
@@ -26,6 +29,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
             this.NumerodeEncabezados = 0;
             this.Conjuntos = Conj;
             this.Lista_Tokens_Rec = new List<Tokens_Reconocidos>();
+            this.Lista_Tokens_NORec = new List<Tokens_Reconocidos>();
         }
 
         public void Calculo_Numero_Hijos() {
@@ -44,15 +48,19 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
             Calculo_Numero_Hijos();
             Boolean bandera = true;
             int Estado = 1;
+
+            int Fila = 0;
+            int Columna = 0; 
             for (int pos = 0; pos < Cadena_Lexema.Length; pos++)
             {
                 //variable para ver si inserto en cualquiera de los casos
                 int Insertado = 0;
+                String Token = "";
                 //1 si
                 //0 no
 
                 //validaciones
-                Console.WriteLine("Nuevo");
+                Console.WriteLine("NUEVA");
                 for (int x = 0; x < NumerodeEncabezados; x++)
                 {
 
@@ -101,7 +109,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             Console.WriteLine("---" + cad + "---");
                             if (cad.Equals(Nombre))
                             {
-                                Console.WriteLine("--ESTADO_CADENA_CORRECTA ");
+                                Token = Nombre;
                                 Estado = int.Parse(Tabla_Transiciones[Estado, x + 1])+1;
                                 Console.WriteLine("PASO AL ESTADO ->"+Estado);
                                 //SE INSERTA
@@ -111,6 +119,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             }
                             else
                             {
+                                Token = Nombre;
                                 Console.WriteLine("--ESTADO_CADENA_INCORRECTA POR: " + Nombre + "--");
                                 pos = pos - (Nombre.Length - 1);
                                 //NO INSERTA
@@ -131,12 +140,11 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             {
                                 if (((Lista_Conjuntos)Conjuntos[ListC]).getNombre().Equals(Nombre))
                                 {
-                                    Console.WriteLine("VALIDANDO CON CONJUNTO: " + Nombre);
                                     Encontrado = ((Lista_Conjuntos)Conjuntos[ListC]).getContenido();
                                     if (((Lista_Conjuntos)Conjuntos[ListC]).getTipo_Conjunto().Equals("Rango")) {
                                         tipo_Conjunto = 1;
                                     }
-                                    Console.WriteLine("CONTENIDO DEL CONJNTO: " + Encontrado);
+                                    Console.WriteLine("CONTENIDO DEL CONJUNTO: " + Encontrado);
                                 }
                             }
                             #endregion
@@ -152,7 +160,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 int regreso_sencillo = 0;
                                 if (Encontrado.Length > 3)
                                 {
-                                    Console.WriteLine("mayor a 3");
                                     //rango de numeros
                                     String a1 = "";
                                     String b1 = "";
@@ -211,11 +218,11 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     b = (int)Encontrado[2];
                                     valor = (int)Cadena_Lexema[pos];
                                 }
-                                Console.WriteLine(Cadena_Lexema[pos] + "----Rango");
                                 if (valor >= a && valor <= b)
                                 {
                                     //cumple
-                                    Console.WriteLine("--ESTADO_CADENA_CORRECTA ");
+                                    string str = char.ConvertFromUtf32(valor);
+                                    Token = str;
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1])+1;
                                     Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     Insertado = 1;
@@ -223,6 +230,8 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 }
                                 else
                                 {
+                                    string str = char.ConvertFromUtf32(valor);
+                                    Token = str;
                                     Console.WriteLine("-No valido Conjunto Rango");
                                     pos -= regreso_sencillo;
                                     regreso_sencillo = 0;
@@ -253,14 +262,15 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     //agrego espacio
                                     if (Cadena_Lexema[pos] == (char)32)
                                     {
+                                        Token = Cadena_Lexema[pos].ToString();
                                         enc = 1;
                                     }
                                 }
                                 foreach(String it in valores)
                                 {
-                                    Console.WriteLine("---------------" + it);
                                     if (it.Equals(v))
                                     {
+                                        Token = it;
                                         enc = 1;
                                     }
                                 }
@@ -268,9 +278,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 Console.WriteLine(Cadena_Lexema[pos] + "----CONJUNTO CONMA");
                                 if (enc == 1)
                                 {
-                                    Console.WriteLine("-valido Conjunto-");
                                     //cumple
-                                    Console.WriteLine("--ESTADO_CADENA_CORRECTA ");
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
                                     Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     Insertado = 1;
@@ -284,47 +292,130 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             }
 
 
-
-
-
                         }//fin conjuntos
-
-
-
 
                     }
                 }
-                //Console.WriteLine(pos+"--"+token);
                 //validamos si se inserto de lo contrario
-                if (Insertado == 0)
+                if (Insertado == 1)
                 {
+                    Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
+                    Lista_Tokens_Rec.Add(nuevo);
                     bandera = false;
                 }
-
-
-
-
+                else {
+                    //no reconocio ningun token
+                    Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
+                    Lista_Tokens_NORec.Add(nuevo);
+                }
+                
 
 
             }
 
             return bandera;
+
         }
 
-        public void EscribirXML(String Nombre,String Valor, int Fila, int Columna) {
+        public String EscribirXML() {
+            String CadenaImprimir = "";
             XmlDocument doc = new XmlDocument();
-            XmlDeclaration Declaracionxml = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            XmlDeclaration Declaracionxml = doc.CreateXmlDeclaration("1.0", "iso-8859-1", null);
             XmlElement raiz = doc.DocumentElement;
             doc.InsertBefore(Declaracionxml, raiz);
 
             //elementos
-            XmlElement elemento1 = doc.CreateElement(string.Empty, "Lista_Tokens", string.Empty);
-            doc.AppendChild(elemento1);
+            XmlElement Element_List_T = doc.CreateElement(string.Empty, "Lista_Tokens", string.Empty);
+            doc.AppendChild(Element_List_T);
 
-            XmlElement element2 = doc.CreateElement(string.Empty, "Token", string.Empty);
-            elemento1.AppendChild(element2);
+            for (int posicion=0;posicion<Lista_Tokens_Rec.Count;posicion++) {
+                XmlElement Element_T = doc.CreateElement(string.Empty, "Token", string.Empty);
+                Element_List_T.AppendChild(Element_T);
+
+                XmlElement Elemento_Cuerpo = doc.CreateElement(string.Empty, "Valor", string.Empty);
+                XmlText text1 = doc.CreateTextNode(Lista_Tokens_Rec[posicion].getDescripcion());
+                Elemento_Cuerpo.AppendChild(text1);
+                Element_T.AppendChild(Elemento_Cuerpo);
+
+                XmlElement Elemento_Fila = doc.CreateElement(string.Empty, "Fila", string.Empty);
+                XmlText text2 = doc.CreateTextNode(Lista_Tokens_Rec[posicion].getFila().ToString());
+                Elemento_Fila.AppendChild(text2);
+                Element_T.AppendChild(Elemento_Fila);
+
+                XmlElement Elemento_Columna = doc.CreateElement(string.Empty, "Columna", string.Empty);
+                XmlText text3 = doc.CreateTextNode(Lista_Tokens_Rec[posicion].getColumna().ToString());
+                Elemento_Columna.AppendChild(text3);
+                Element_T.AppendChild(Elemento_Columna);
+            }
 
             doc.Save("Tokens_"+NombreXML+".xml");
+            //retornamos contenido
+            String Contenido="";
+            StreamReader objLeer = new StreamReader("Tokens_" + NombreXML + ".xml");
+            String Linea="";
+            while (Linea != null)
+            {
+                Linea = objLeer.ReadLine();
+                if (Linea != null) {
+                    Contenido += Linea+"\n";
+                }
+            }
+            //Cerramos el archivo
+            objLeer.Close();
+
+            return Contenido;
+        }
+
+        public String EscribirXML_Errores()
+        {
+
+            XmlDocument doc = new XmlDocument();
+            XmlDeclaration Declaracionxml = doc.CreateXmlDeclaration("1.0", "iso-8859-1", null);
+            XmlElement raiz = doc.DocumentElement;
+            doc.InsertBefore(Declaracionxml, raiz);
+
+            //elementos
+            XmlElement Element_List_T = doc.CreateElement(string.Empty, "Lista_Errores", string.Empty);
+            doc.AppendChild(Element_List_T);
+
+            for (int posicion = 0; posicion < Lista_Tokens_NORec.Count; posicion++)
+            {
+                XmlElement Element_T = doc.CreateElement(string.Empty, "Error", string.Empty);
+                Element_List_T.AppendChild(Element_T);
+
+                XmlElement Elemento_Cuerpo = doc.CreateElement(string.Empty, "Valor", string.Empty);
+                XmlText text1 = doc.CreateTextNode(Lista_Tokens_NORec[posicion].getDescripcion());
+                Elemento_Cuerpo.AppendChild(text1);
+                Element_T.AppendChild(Elemento_Cuerpo);
+
+                XmlElement Elemento_Fila = doc.CreateElement(string.Empty, "Fila", string.Empty);
+                XmlText text2 = doc.CreateTextNode(Lista_Tokens_NORec[posicion].getFila().ToString());
+                Elemento_Fila.AppendChild(text2);
+                Element_T.AppendChild(Elemento_Fila);
+
+                XmlElement Elemento_Columna = doc.CreateElement(string.Empty, "Columna", string.Empty);
+                XmlText text3 = doc.CreateTextNode(Lista_Tokens_NORec[posicion].getColumna().ToString());
+                Elemento_Columna.AppendChild(text3);
+                Element_T.AppendChild(Elemento_Columna);
+            }
+
+            doc.Save("Token_Errores_" + NombreXML + ".xml");
+            //retornamos contenido
+            String Contenido = "";
+            StreamReader objLeer = new StreamReader("Token_Errores_" + NombreXML + ".xml");
+            String Linea = "";
+            while (Linea != null)
+            {
+                Linea = objLeer.ReadLine();
+                if (Linea != null)
+                {
+                    Contenido += Linea + "\n";
+                }
+            }
+            //Cerramos el archivo
+            objLeer.Close();
+
+            return Contenido;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace _OLC1_PY1_201701133
         ArrayList Lista_Expresiones_R;
         ArrayList Lista_Conjuntos;
         List<String[,]> Lista_Tabla_Transiciones;
+        List<Lista_XML> Lista_Datos_XML;
         //Analizador
         Analizador Analizadores;
         //controlador de Imagenes AFND
@@ -33,6 +34,7 @@ namespace _OLC1_PY1_201701133
             Lista_Expresiones_R = new ArrayList();
             Lista_Conjuntos = new ArrayList();
             Lista_Tabla_Transiciones = new List<String[,]>();
+            Lista_Datos_XML = new List<Lista_XML>();
 
             Posicion_AFND = 0;
         }
@@ -55,7 +57,7 @@ namespace _OLC1_PY1_201701133
                     //Dandole nombre a la pestaña
                     filePath = openFileDialog.FileName;
                     FileInfo info = new FileInfo(filePath);
-                    
+
 
                     //Read the contents of the file into a stream
                     var fileStream = openFileDialog.OpenFile();
@@ -73,7 +75,7 @@ namespace _OLC1_PY1_201701133
                     RichTextBox campo = new RichTextBox();
                     campo.Name = "rtb";
                     campo.WordWrap = false; campo.Multiline = true;
-                    campo.Font = new Font("Arial", 10);
+                    campo.Font = new Font("Arial", 11);
                     campo.Width = 495; campo.Height = 375;
                     nuevapagina.Controls.Add(campo);
                     campo.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
@@ -143,14 +145,15 @@ namespace _OLC1_PY1_201701133
             //Generadores de Thompson
             #region thompson
             Lista_Tabla_Transiciones.Clear();
-            for (int no=0;no<Lista_Expresiones_R.Count;no++) {
+            for (int no = 0; no < Lista_Expresiones_R.Count; no++)
+            {
                 Metodo_Thompson Analizador_Thompson = new Metodo_Thompson();
                 Analizador_Thompson.Analizar_Metodo(((Lista_ER)Lista_Expresiones_R[no]).getNombre(), ((Lista_ER)Lista_Expresiones_R[no]).getER());
 
-                
+
                 Lista_Tabla_Transiciones.Add(Analizador_Thompson.Get_Tabla_Transiciones());
                 //agregar al Tree
-                treeView1.Nodes[0].Nodes.Add("AFND_"+((Lista_ER)Lista_Expresiones_R[no]).getNombre());
+                treeView1.Nodes[0].Nodes.Add("AFND_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
                 treeView1.Nodes[1].Nodes.Add("AFD_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
                 treeView1.Nodes[2].Nodes.Add("TABLA_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
             }
@@ -179,7 +182,7 @@ namespace _OLC1_PY1_201701133
             RichTextBox campo = new RichTextBox();
             campo.Name = "rtb";
             campo.WordWrap = false; campo.Multiline = true;
-            campo .Font = new Font("Arial", 10);
+            campo.Font = new Font("Arial", 11);
             campo.Width = 495; campo.Height = 375;
             nuevapagina.Controls.Add(campo);
             campo.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
@@ -207,7 +210,7 @@ namespace _OLC1_PY1_201701133
                 Bitmap MyImage;
                 MyImage = new Bitmap("AFND" + ((Lista_ER)Lista_Expresiones_R[Posicion_AFND]).getNombre() + ".png");
                 R_I.pictureBox1.Image = (Image)MyImage;
-                R_I.RecibirTamañoyLista(Lista_Expresiones_R.Count,Lista_Expresiones_R);
+                R_I.RecibirTamañoyLista(Lista_Expresiones_R.Count, Lista_Expresiones_R);
                 R_I.AFND_AFD = 0;
                 R_I.Show();
             }
@@ -215,14 +218,14 @@ namespace _OLC1_PY1_201701133
             {
                 MessageBox.Show("No Hay Imagenes Cargadas");
             }
-            
+
         }
 
         private void mostrarAFDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Reporte_Imagenes R_I = new Reporte_Imagenes();
             Posicion_AFND = 0;
-            
+
             if (Lista_Expresiones_R.Count != 0)
             {
                 Bitmap MyImage;
@@ -241,13 +244,13 @@ namespace _OLC1_PY1_201701133
 
         private void tablaTransicionesAFDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             if (Lista_Expresiones_R.Count != 0)
             {
                 Tabla_TransicionesAFD Tab_Tras = new Tabla_TransicionesAFD();
                 Posicion_AFND = 0;
                 Tab_Tras.webBrowser1.AllowWebBrowserDrop = false;
-                String path = "Reporte_Transicion_"+ ((Lista_ER)Lista_Expresiones_R[0]).getNombre()+".html";
+                String path = "Reporte_Transicion_" + ((Lista_ER)Lista_Expresiones_R[0]).getNombre() + ".html";
                 Tab_Tras.webBrowser1.DocumentText = File.ReadAllText(path);
                 Tab_Tras.RecibirTamañoyLista(Lista_Expresiones_R.Count, Lista_Expresiones_R);
                 Tab_Tras.Show();
@@ -262,6 +265,7 @@ namespace _OLC1_PY1_201701133
         {
             //Analisar lexemas
             ArrayList Lexemas = Analizadores.GetArrayLista_ExpE();
+            Lista_Datos_XML.Clear();
             //comprobamos con que expresion regular se debe analizar
             for (int pos_nombre = 0; pos_nombre < Lista_Expresiones_R.Count; pos_nombre++)
             {
@@ -272,12 +276,65 @@ namespace _OLC1_PY1_201701133
                     if (Nombre_Lex.Equals(Nombre_ER))
                     {
                         //se mandan a analizar
-                        Analizador_Lexema_Entrada Metodo_Analizador_LexE = new Analizador_Lexema_Entrada(((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(),Lista_Tabla_Transiciones[pos_nombre],Lista_Conjuntos);
+                        Analizador_Lexema_Entrada Metodo_Analizador_LexE = new Analizador_Lexema_Entrada(((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(), Lista_Tabla_Transiciones[pos_nombre], Lista_Conjuntos);
                         Metodo_Analizador_LexE.NombreXML = Nombre_ER;
                         Metodo_Analizador_LexE.Analizar_Lexema_Entrada();
-                        
+
+
+                        //TOKENS XML
+                        String contXML = Metodo_Analizador_LexE.EscribirXML();
+                        Lista_XML nuevo = new Lista_XML(Nombre_ER, ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(), contXML,false);
+                        Lista_Datos_XML.Add(nuevo);
+                        //ERRORES XML
+                        String contXML_Error = Metodo_Analizador_LexE.EscribirXML_Errores();
+                        Lista_XML nuevo2 = new Lista_XML(Nombre_ER, ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(), contXML_Error, true);
+                        Lista_Datos_XML.Add(nuevo2);
                     }
                 }
+            }
+        }
+
+        private void reporteXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reporte_XML R_XML = new Reporte_XML();
+
+            if (Lista_Datos_XML.Count != 0)
+            {
+                R_XML.Tipo = false;
+                foreach (Lista_XML x in Lista_Datos_XML)
+                {
+                    R_XML.Set_Lista(x.Nombre, x.Contenido, x.ContenidoXML,x.Tipo);
+                }
+                
+                R_XML.PrimerDato();
+                R_XML.Show();
+            }
+            else
+            {
+                MessageBox.Show("No Hay Reportes XML");
+
+            }
+        }
+
+        private void reporteErroresXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reporte_XML R_XML = new Reporte_XML();
+
+            if (Lista_Datos_XML.Count != 0)
+            {
+                R_XML.Tipo = true;
+                foreach (Lista_XML x in Lista_Datos_XML)
+                {
+                    R_XML.Set_Lista(x.Nombre, x.Contenido, x.ContenidoXML, x.Tipo);
+                }
+
+                R_XML.PrimerDato();
+                R_XML.Show();
+            }
+            else
+            {
+                MessageBox.Show("No Hay Reportes XML");
+
             }
         }
     }
