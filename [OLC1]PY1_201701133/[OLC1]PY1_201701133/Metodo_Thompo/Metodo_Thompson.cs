@@ -657,25 +657,6 @@ namespace _OLC1_PY1_201701133.Estructuras
 
             }
             return Nueva_tabla;
-            //recorremos arraypara ver si se inserto bien
-            //for (int re_y = 0; re_y < 50; re_y++)
-            //{
-            //    if (Nueva_tabla[re_y, 0] != null || re_y==0)
-            //    {
-            //        Console.Write("Estado " + Nueva_tabla[re_y, 0] + ": ");
-            //        for (int re_x = 1; re_x < 50; re_x++)
-            //        {
-            //            if (Nueva_tabla[re_y, re_x] != null) {
-            //                Console.Write("-" + Nueva_tabla[re_y, re_x]);
-            //            }
-                       
-
-
-            //        }
-            //        Console.WriteLine();
-            //    }
-            //    else { break; }
-            //}
         }
 
         public int Get_Numero_Hijos() {

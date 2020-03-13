@@ -57,10 +57,11 @@
             this.mostrarAFNDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mostrarAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tablaTransicionesAFDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.reporteXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reporteErroresXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,7 +74,7 @@
             this.reportesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(673, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(752, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -295,21 +296,6 @@
             this.tablaTransicionesAFDToolStripMenuItem.Text = "Tabla &Transiciones AFD";
             this.tablaTransicionesAFDToolStripMenuItem.Click += new System.EventHandler(this.tablaTransicionesAFDToolStripMenuItem_Click);
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Location = new System.Drawing.Point(0, 27);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(501, 333);
-            this.tabControl1.TabIndex = 1;
-            // 
-            // treeView1
-            // 
-            this.treeView1.Location = new System.Drawing.Point(517, 47);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(144, 379);
-            this.treeView1.TabIndex = 2;
-            // 
             // reporteXMLToolStripMenuItem
             // 
             this.reporteXMLToolStripMenuItem.Name = "reporteXMLToolStripMenuItem";
@@ -324,13 +310,40 @@
             this.reporteErroresXMLToolStripMenuItem.Text = "Reporte Errores &XML";
             this.reporteErroresXMLToolStripMenuItem.Click += new System.EventHandler(this.reporteErroresXMLToolStripMenuItem_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Location = new System.Drawing.Point(0, 27);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(501, 333);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(557, 47);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(171, 379);
+            this.treeView1.TabIndex = 2;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Font = new System.Drawing.Font("Arial Narrow", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(0, 432);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.richTextBox1.Size = new System.Drawing.Size(745, 152);
+            this.richTextBox1.TabIndex = 3;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(673, 564);
+            this.ClientSize = new System.Drawing.Size(752, 596);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
@@ -380,6 +393,7 @@
         private System.Windows.Forms.ToolStripMenuItem analisisDeLexemaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteXMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteErroresXMLToolStripMenuItem;
+        public System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF - 8"?>
 <Lista_Tokens>
   <Token>
     <Valor>i</Valor>
@@ -7,6 +7,16 @@
   </Token>
   <Token>
     <Valor>f</Valor>
+    <Fila>0</Fila>
+    <Columna>0</Columna>
+  </Token>
+  <Token>
+    <Valor> </Valor>
+    <Fila>0</Fila>
+    <Columna>0</Columna>
+  </Token>
+  <Token>
+    <Valor> </Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>
@@ -32,31 +42,6 @@
   </Token>
   <Token>
     <Valor>n</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor> </Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>&lt;</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor> </Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor> </Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>2</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>

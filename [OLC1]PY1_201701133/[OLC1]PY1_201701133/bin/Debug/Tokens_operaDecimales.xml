@@ -1,42 +1,12 @@
 <?xml version="1.0" encoding="UTF - 8"?>
 <Lista_Tokens>
   <Token>
-    <Valor>1</Valor>
+    <Valor>5</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>
   <Token>
-    <Valor>+</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>2</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>*</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>3</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>+</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>4</Valor>
-    <Fila>0</Fila>
-    <Columna>0</Columna>
-  </Token>
-  <Token>
-    <Valor>*</Valor>
+    <Valor>.</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>
@@ -46,22 +16,27 @@
     <Columna>0</Columna>
   </Token>
   <Token>
-    <Valor>*</Valor>
+    <Valor>+</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>
   <Token>
-    <Valor>6</Valor>
+    <Valor>1</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>
   <Token>
-    <Valor>/</Valor>
+    <Valor>3</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>
   <Token>
-    <Valor>2</Valor>
+    <Valor>.</Valor>
+    <Fila>0</Fila>
+    <Columna>0</Columna>
+  </Token>
+  <Token>
+    <Valor>5</Valor>
     <Fila>0</Fila>
     <Columna>0</Columna>
   </Token>

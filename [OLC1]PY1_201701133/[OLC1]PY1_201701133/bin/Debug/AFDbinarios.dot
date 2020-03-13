@@ -1,0 +1,39 @@
+digraph AFD { 
+graph [label="AFD: binarios", labelloc=t, fontsize=20];
+rankdir=LR;
+edge [color=blue];
+node [color = mediumseagreen];
+"S0"[ label=S0 ]
+"S1"[ label=S1 ]
+"S2"[ label=S2 ]
+"S3"[ label=S3 ]
+"S4"[ label=S4 ]
+"S5"[ label=S5 ]
+"S6"[ label=S6 ]
+"S7"[ label=S7 ]
+"S8"[ label=S8 ]
+"S9"[ label=S9 ]
+"S9"[peripheries=2]"S10"[ label=S10 ]
+"S10"[peripheries=2]secret_node [style=invis]; 
+ secret_node->"S0"[label = "inicio"]; 
+"S0"->"S1"[label="\"si\"" ];
+"S1"->"S2"[label="{BINARIO}" ];
+"S2"->"S2"[label="{BINARIO}" ];
+"S2"->"S3"[label="\"=\"" ];
+"S3"->"S4"[label="{num}" ];
+"S4"->"S5"[label="{abcd}" ];
+"S4"->"S6"[label="\"_\"" ];
+"S5"->"S7"[label="{BINARIO}" ];
+"S5"->"S5"[label="{abcd}" ];
+"S5"->"S6"[label="\"_\"" ];
+"S6"->"S7"[label="{BINARIO}" ];
+"S6"->"S5"[label="{abcd}" ];
+"S6"->"S6"[label="\"_\"" ];
+"S7"->"S7"[label="{BINARIO}" ];
+"S7"->"S8"[label="{abcd}" ];
+"S8"->"S9"[label="{num}" ];
+"S8"->"S8"[label="{abcd}" ];
+"S8"->"S10"[label="\"?\"" ];
+"S9"->"S9"[label="{num}" ];
+
+}

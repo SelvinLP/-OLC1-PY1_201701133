@@ -543,6 +543,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                                     Nombre = ((Lista_Tokens)Lista_T[x+2]).getLexema();
                                     Estado = 1;
                                     x = x + 4;
+                                    Contenido = "";
                                 }
                             }
                         }
@@ -559,37 +560,53 @@ namespace _OLC1_PY1_201701133.Estructuras
                         //Concatena los conjuntos
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Identificador"))
                         {
-                            if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
-                            {
-                                Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
-                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido,"Rango"));
-                                x = x + 2;
-                                Estado = 0;
-                            }
+                            try {
+                                if (((Lista_Tokens)Lista_T[x + 1]).getDescripcion().Equals("Tilde"))
+                                {
+                                    Contenido = "";
+                                    Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x + 1]).getLexema() + ((Lista_Tokens)Lista_T[x + 2]).getLexema();
+                                    Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
+                                    Contenido = "";
+                                    x = x + 2;
+                                    Estado = 0;
+                                }
+                            } catch { } 
 
                         }
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Digito"))
                         {
-                            if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
-                            {
-                                Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
-                                Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
-                                x = x + 2;
-                                Estado = 0;
-                            }
+                            try {
+                                if (((Lista_Tokens)Lista_T[x + 1]).getDescripcion().Equals("Tilde"))
+                                {
+                                    Contenido = "";
+                                    Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x + 1]).getLexema() + ((Lista_Tokens)Lista_T[x + 2]).getLexema();
+                                    Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
+                                    Contenido = "";
+                                    x = x + 2;
+                                    Estado = 0;
+                                }
+                            } catch { }
+                            
 
                         }
                         for (int i = 6; i <= 37; i++)
                         {
                             if (((Lista_Tokens)Lista_T[x]).getID() == i)
                             {
-                                if (((Lista_Tokens)Lista_T[x+1]).getDescripcion().Equals("Tilde"))
+                                try
                                 {
-                                    Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x+1]).getLexema() + ((Lista_Tokens)Lista_T[x+2]).getLexema();
-                                    Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
-                                    x = x + 2;
-                                    Estado = 0;
+                                    if (((Lista_Tokens)Lista_T[x + 1]).getDescripcion().Equals("Tilde"))
+                                    {
+                                        Contenido = "";
+                                        Contenido = ((Lista_Tokens)Lista_T[x]).getLexema() + ((Lista_Tokens)Lista_T[x + 1]).getLexema() + ((Lista_Tokens)Lista_T[x + 2]).getLexema();
+                                        Lista_CJ.Add(new Lista_Conjuntos(Nombre, Contenido, "Rango"));
+                                        Contenido = "";
+                                        x = x + 2;
+                                        Estado = 0;
+                                    }
                                 }
+                                catch { }
+                                
 
                             }
                         }
@@ -618,16 +635,21 @@ namespace _OLC1_PY1_201701133.Estructuras
                         //ESTADO 2
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals("-"))
                         {
-                            if (((Lista_Tokens)Lista_T[x+1]).getLexema().Equals(">"))
+                            try
                             {
-                                //se mira que es expresion regular
+                                if (((Lista_Tokens)Lista_T[x + 1]).getLexema().Equals(">"))
+                                {
+                                    //se mira que es expresion regular
 
-                                Lista_ER nuevo = new Lista_ER(((Lista_Tokens)Lista_T[x-1]).getLexema());
-                                Nuevo = nuevo;
-                                Lista_ER.Add(nuevo);
-                                x++;
-                                Estado = 3;
+                                    Lista_ER nuevo = new Lista_ER(((Lista_Tokens)Lista_T[x - 1]).getLexema());
+                                    Nuevo = nuevo;
+                                    Lista_ER.Add(nuevo);
+                                    x++;
+                                    Estado = 3;
+                                }
                             }
+                            catch { }
+
                         }
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(":"))
                         {
@@ -704,24 +726,30 @@ namespace _OLC1_PY1_201701133.Estructuras
                         break;
                     case 4:
                         //                    System.out.println(((Lista_Tokens)Lista_T[x]).getLexema());
-                        Contenido = ((Lista_Tokens)Lista_T[x+1]).getLexema();
-                        Lista_ExpE.Add(new Lista_LexemaE(((Lista_Tokens)Lista_T[x - 2]).getLexema(), Contenido));
+                        try {
+                            Contenido = "";
+                            Contenido = ((Lista_Tokens)Lista_T[x + 1]).getLexema();
+                            Lista_ExpE.Add(new Lista_LexemaE(((Lista_Tokens)Lista_T[x - 2]).getLexema(), Contenido));
+                            Contenido = "";
+                        } catch {
+                        }
+                        
                         Estado = 0;
-
                         break;
                 }//fin switch
             }//Fin for
              //prueba si se llenaron las listas correctamente
-             //for (int i = 0; i < Lista_CJ.Count; i++){
-             //    Console.WriteLine("NOMBRE DEL CONJUNTO: "+((Lista_Conjuntos)Lista_CJ[i]).getNombre()+"\t CONTENIDO: "+ ((Lista_Conjuntos)Lista_CJ[i]).getContenido());
-             //}
+            //for (int i = 0; i < Lista_CJ.Count; i++)
+            //{
+            //    Console.WriteLine("NOMBRE DEL CONJUNTO: " + ((Lista_Conjuntos)Lista_CJ[i]).getNombre() + "\t CONTENIDO: " + ((Lista_Conjuntos)Lista_CJ[i]).getContenido());
+            //}
             //for (int i = 0; i < Lista_ER.Count; i++)
             //{
             //    Console.WriteLine("NOMBRE DEL EXPR: " + ((Lista_ER)Lista_ER[i]).getNombre() + "\t CONTENIDO: ");
             //}
             //for (int i = 0; i < Lista_ExpE.Count; i++)
             //{
-            //    Console.WriteLine("NOMBRE DEL LEXEMA: " + ((Lista_LexemaE)Lista_ExpE[i]).getNombre() + "\t CONTENIDO: "+ ((Lista_LexemaE)Lista_ExpE[i]).getContenido());
+            //    Console.WriteLine("NOMBRE DEL LEXEMA: " + ((Lista_LexemaE)Lista_ExpE[i]).getNombre() + "\t CONTENIDO: " + ((Lista_LexemaE)Lista_ExpE[i]).getContenido());
             //}
 
         }

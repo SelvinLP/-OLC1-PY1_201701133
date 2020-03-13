@@ -1,9 +1,8 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF - 8"?>
 <Lista_Errores>
   <Error>
-    <Valor>
-    </Valor>
+    <Valor>b</Valor>
     <Fila>0</Fila>
-    <Columna>0</Columna>
+    <Columna>2</Columna>
   </Error>
 </Lista_Errores>

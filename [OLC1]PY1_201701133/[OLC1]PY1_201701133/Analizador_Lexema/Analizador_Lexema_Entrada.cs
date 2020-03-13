@@ -282,10 +282,12 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
                                     Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     Insertado = 1;
+                                    Columna++;
                                     break;
                                 }
                                 else
                                 {
+                                    Columna++;
                                     Console.WriteLine("-No valido Conjunto-");
                                     Insertado = 0;
                                 }
@@ -301,12 +303,12 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                 {
                     Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
                     Lista_Tokens_Rec.Add(nuevo);
-                    bandera = false;
                 }
                 else {
                     //no reconocio ningun token
                     Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
                     Lista_Tokens_NORec.Add(nuevo);
+                    bandera = false;
                 }
                 
 
@@ -319,36 +321,35 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
 
         public String EscribirXML() {
             String CadenaImprimir = "";
-            XmlDocument doc = new XmlDocument();
-            XmlDeclaration Declaracionxml = doc.CreateXmlDeclaration("1.0", "iso-8859-1", null);
-            XmlElement raiz = doc.DocumentElement;
-            doc.InsertBefore(Declaracionxml, raiz);
-
-            //elementos
-            XmlElement Element_List_T = doc.CreateElement(string.Empty, "Lista_Tokens", string.Empty);
-            doc.AppendChild(Element_List_T);
+            CadenaImprimir+= "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>"+'\n';
+            CadenaImprimir += "<Lista_Tokens>" + '\n';
 
             for (int posicion=0;posicion<Lista_Tokens_Rec.Count;posicion++) {
-                XmlElement Element_T = doc.CreateElement(string.Empty, "Token", string.Empty);
-                Element_List_T.AppendChild(Element_T);
+                CadenaImprimir += "  <Token>" + '\n';
 
-                XmlElement Elemento_Cuerpo = doc.CreateElement(string.Empty, "Valor", string.Empty);
-                XmlText text1 = doc.CreateTextNode(Lista_Tokens_Rec[posicion].getDescripcion());
-                Elemento_Cuerpo.AppendChild(text1);
-                Element_T.AppendChild(Elemento_Cuerpo);
+                CadenaImprimir += "    <Valor>"+ Lista_Tokens_Rec[posicion].getDescripcion()+ "</Valor>" + '\n';
+                CadenaImprimir += "    <Fila>" + Lista_Tokens_Rec[posicion].getFila().ToString() + "</Fila>" + '\n';
+                CadenaImprimir += "    <Columna>" + Lista_Tokens_Rec[posicion].getColumna().ToString() + "</Columna>" + '\n';
 
-                XmlElement Elemento_Fila = doc.CreateElement(string.Empty, "Fila", string.Empty);
-                XmlText text2 = doc.CreateTextNode(Lista_Tokens_Rec[posicion].getFila().ToString());
-                Elemento_Fila.AppendChild(text2);
-                Element_T.AppendChild(Elemento_Fila);
+                CadenaImprimir += "  </Token>" + '\n';
+            }
+            CadenaImprimir += "</Lista_Tokens>" + '\n';
 
-                XmlElement Elemento_Columna = doc.CreateElement(string.Empty, "Columna", string.Empty);
-                XmlText text3 = doc.CreateTextNode(Lista_Tokens_Rec[posicion].getColumna().ToString());
-                Elemento_Columna.AppendChild(text3);
-                Element_T.AppendChild(Elemento_Columna);
+            string path = @"Tokens_" + NombreXML + ".xml";
+            try
+            {
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(CadenaImprimir);
+                    fs.Write(info, 0, info.Length);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
 
-            doc.Save("Tokens_"+NombreXML+".xml");
             //retornamos contenido
             String Contenido="";
             StreamReader objLeer = new StreamReader("Tokens_" + NombreXML + ".xml");
@@ -369,37 +370,37 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
         public String EscribirXML_Errores()
         {
 
-            XmlDocument doc = new XmlDocument();
-            XmlDeclaration Declaracionxml = doc.CreateXmlDeclaration("1.0", "iso-8859-1", null);
-            XmlElement raiz = doc.DocumentElement;
-            doc.InsertBefore(Declaracionxml, raiz);
-
-            //elementos
-            XmlElement Element_List_T = doc.CreateElement(string.Empty, "Lista_Errores", string.Empty);
-            doc.AppendChild(Element_List_T);
+            String CadenaImprimir = "";
+            CadenaImprimir += "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>" + '\n';
+            CadenaImprimir += "<Lista_Errores>" + '\n';
 
             for (int posicion = 0; posicion < Lista_Tokens_NORec.Count; posicion++)
             {
-                XmlElement Element_T = doc.CreateElement(string.Empty, "Error", string.Empty);
-                Element_List_T.AppendChild(Element_T);
+                CadenaImprimir += "  <Error>" + '\n';
 
-                XmlElement Elemento_Cuerpo = doc.CreateElement(string.Empty, "Valor", string.Empty);
-                XmlText text1 = doc.CreateTextNode(Lista_Tokens_NORec[posicion].getDescripcion());
-                Elemento_Cuerpo.AppendChild(text1);
-                Element_T.AppendChild(Elemento_Cuerpo);
+                CadenaImprimir += "    <Valor>" + Lista_Tokens_NORec[posicion].getDescripcion() + "</Valor>" + '\n';
+                CadenaImprimir += "    <Fila>" + Lista_Tokens_NORec[posicion].getFila().ToString() + "</Fila>" + '\n';
+                CadenaImprimir += "    <Columna>" + Lista_Tokens_NORec[posicion].getColumna().ToString() + "</Columna>" + '\n';
 
-                XmlElement Elemento_Fila = doc.CreateElement(string.Empty, "Fila", string.Empty);
-                XmlText text2 = doc.CreateTextNode(Lista_Tokens_NORec[posicion].getFila().ToString());
-                Elemento_Fila.AppendChild(text2);
-                Element_T.AppendChild(Elemento_Fila);
+                CadenaImprimir += "  </Error>" + '\n';
+            }
+            CadenaImprimir += "</Lista_Errores>" + '\n';
 
-                XmlElement Elemento_Columna = doc.CreateElement(string.Empty, "Columna", string.Empty);
-                XmlText text3 = doc.CreateTextNode(Lista_Tokens_NORec[posicion].getColumna().ToString());
-                Elemento_Columna.AppendChild(text3);
-                Element_T.AppendChild(Elemento_Columna);
+            string path = @"Token_Errores_" + NombreXML + ".xml";
+            try
+            {
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(CadenaImprimir);
+                    fs.Write(info, 0, info.Length);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
 
-            doc.Save("Token_Errores_" + NombreXML + ".xml");
             //retornamos contenido
             String Contenido = "";
             StreamReader objLeer = new StreamReader("Token_Errores_" + NombreXML + ".xml");

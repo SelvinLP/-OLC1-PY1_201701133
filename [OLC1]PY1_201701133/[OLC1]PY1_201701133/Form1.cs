@@ -69,14 +69,14 @@ namespace _OLC1_PY1_201701133
                     nuevapagina.Text = info.Name;
                     controlpestañas.TabPages.Add(nuevapagina);
                     controlpestañas.Location = new Point(8, 27);
-                    controlpestañas.Size = new Size(500, 400);
+                    controlpestañas.Size = new Size(550, 400);
 
                     //agregamos canpo de texto
                     RichTextBox campo = new RichTextBox();
                     campo.Name = "rtb";
                     campo.WordWrap = false; campo.Multiline = true;
                     campo.Font = new Font("Arial", 11);
-                    campo.Width = 495; campo.Height = 375;
+                    campo.Width = 545; campo.Height = 375;
                     nuevapagina.Controls.Add(campo);
                     campo.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
                     using (StreamReader reader = new StreamReader(fileStream))
@@ -266,6 +266,8 @@ namespace _OLC1_PY1_201701133
             //Analisar lexemas
             ArrayList Lexemas = Analizadores.GetArrayLista_ExpE();
             Lista_Datos_XML.Clear();
+            richTextBox1.Clear();
+            Lista_Datos_XML.Clear();
             //comprobamos con que expresion regular se debe analizar
             for (int pos_nombre = 0; pos_nombre < Lista_Expresiones_R.Count; pos_nombre++)
             {
@@ -278,8 +280,15 @@ namespace _OLC1_PY1_201701133
                         //se mandan a analizar
                         Analizador_Lexema_Entrada Metodo_Analizador_LexE = new Analizador_Lexema_Entrada(((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(), Lista_Tabla_Transiciones[pos_nombre], Lista_Conjuntos);
                         Metodo_Analizador_LexE.NombreXML = Nombre_ER;
-                        Metodo_Analizador_LexE.Analizar_Lexema_Entrada();
-
+                        Boolean bandera=Metodo_Analizador_LexE.Analizar_Lexema_Entrada();
+                        //Agregar resultado a Richtextox
+                        String Contenido = richTextBox1.Text;
+                        Contenido += '\n';
+                        Contenido += "--------------------------------------------------------------------------------------------------------------------------------------"+'\n';
+                        Contenido += "Expresion Regular: " + Nombre_ER+'\n';
+                        Contenido += "Lexema de Entrada: " + ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido() + '\n';
+                        Contenido += "Cumple el Lexema:  " + bandera;
+                        richTextBox1.Text = Contenido;
 
                         //TOKENS XML
                         String contXML = Metodo_Analizador_LexE.EscribirXML();
