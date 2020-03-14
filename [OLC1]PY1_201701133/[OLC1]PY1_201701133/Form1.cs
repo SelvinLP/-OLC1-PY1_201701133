@@ -150,7 +150,8 @@ namespace _OLC1_PY1_201701133
                 Metodo_Thompson Analizador_Thompson = new Metodo_Thompson();
                 Analizador_Thompson.Analizar_Metodo(((Lista_ER)Lista_Expresiones_R[no]).getNombre(), ((Lista_ER)Lista_Expresiones_R[no]).getER());
 
-
+                ((Lista_ER)Lista_Expresiones_R[no]).L_Estados_Aceptacion.Clear();
+                ((Lista_ER)Lista_Expresiones_R[no]).L_Estados_Aceptacion = Analizador_Thompson.Estados_Aceptacion();
                 Lista_Tabla_Transiciones.Add(Analizador_Thompson.Get_Tabla_Transiciones());
                 //agregar al Tree
                 treeView1.Nodes[0].Nodes.Add("AFND_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
@@ -158,11 +159,6 @@ namespace _OLC1_PY1_201701133
                 treeView1.Nodes[2].Nodes.Add("TABLA_" + ((Lista_ER)Lista_Expresiones_R[no]).getNombre());
             }
             #endregion
-
-            //for (int i = 0; i < Lista_Conjuntos.Count; i++)
-            //{
-            //    Console.WriteLine("NOMBRE DEL CONJUNTO: " + ((Lista_Conjuntos)Lista_Conjuntos[i]).getNombre() + "\t CONTENIDO: " + ((Lista_Conjuntos)Lista_Conjuntos[i]).getContenido());
-            //}
 
 
         }
@@ -281,13 +277,30 @@ namespace _OLC1_PY1_201701133
                         Analizador_Lexema_Entrada Metodo_Analizador_LexE = new Analizador_Lexema_Entrada(((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido(), Lista_Tabla_Transiciones[pos_nombre], Lista_Conjuntos);
                         Metodo_Analizador_LexE.NombreXML = Nombre_ER;
                         Boolean bandera=Metodo_Analizador_LexE.Analizar_Lexema_Entrada();
+
+                        //verificamos si se encuentra en estado de aceptacion
+                        int Estado_F = Metodo_Analizador_LexE.Get_Estado_Final();
+                        Boolean Es_Estado = false;
+                        foreach (int Est_F in ((Lista_ER)Lista_Expresiones_R[pos_nombre]).L_Estados_Aceptacion)
+                        {
+                            if (Estado_F == Est_F) {
+                                Es_Estado = true;
+                            }
+                        }
+                        
                         //Agregar resultado a Richtextox
                         String Contenido = richTextBox1.Text;
-                        Contenido += '\n';
                         Contenido += "--------------------------------------------------------------------------------------------------------------------------------------"+'\n';
                         Contenido += "Expresion Regular: " + Nombre_ER+'\n';
-                        Contenido += "Lexema de Entrada: " + ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido() + '\n';
-                        Contenido += "Cumple el Lexema:  " + bandera;
+                        Contenido += "Lexema De Entrada: " + ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido() + '\n';
+                        if (!Es_Estado)
+                        {
+                            Contenido += "Reconocio Tokens: " + bandera + "\nLlego A Estado De Aceptacion Con Estado "+Estado_F+": " + false+"\n";
+                            bandera = false;
+
+                        }
+                        else { Contenido += "Reconocio Tokens: " + bandera + "\nLlego D Estado De Aceptacion Con Estado " + Estado_F + ": " + true +"\n"; }
+                        Contenido += "CUMPLE EL LEXEMA  " + bandera+"\n";
                         richTextBox1.Text = Contenido;
 
                         //TOKENS XML

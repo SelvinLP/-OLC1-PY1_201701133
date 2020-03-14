@@ -11,11 +11,12 @@ namespace _OLC1_PY1_201701133.Estructuras
     {
         private String Nombre;
         private ArrayList ExpresionRegular;
-
+        public List<int> L_Estados_Aceptacion;
         public Lista_ER(String nombre)
         {
             this.Nombre = nombre;
             ExpresionRegular = new ArrayList();
+            this.L_Estados_Aceptacion = new List<int>();
         }
         //Metodos de Acceso
         public String getNombre()

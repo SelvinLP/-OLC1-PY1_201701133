@@ -31,6 +31,7 @@ namespace _OLC1_PY1_201701133.Estructuras
         ArrayList L_Transiciones;
         ArrayList L_Cerradura;
         List<String> NodoHijos;
+        List<int> L_EstadosAceptacion;
         //Nombre de ER
         String Nombre_ER;
         //Arbol
@@ -43,6 +44,7 @@ namespace _OLC1_PY1_201701133.Estructuras
             L_Transiciones = new ArrayList();
             L_Cerradura = new ArrayList();
             NodoHijos = new List<String>();
+            L_EstadosAceptacion = new List<int>();
         }
 
         public void Analizar_Metodo(String nm, ArrayList tem) {
@@ -54,7 +56,6 @@ namespace _OLC1_PY1_201701133.Estructuras
             Console.WriteLine(Lista_ExpRegular[0].ToString());
             Raiz = nuevo;
             for (int cant = 1; cant < Lista_ExpRegular.Count; cant++) {
-                Console.WriteLine(Lista_ExpRegular[cant].ToString());
                 nuevo = new Nodo_Arbol(Lista_ExpRegular[cant].ToString());
                 Insertar_Arbol(false, this.Raiz, nuevo);
             }
@@ -488,6 +489,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                     if (s==Raiz.Ultimo) {
                         //es estado de aceptacion
                         CadenaImprimir += "\"S" + ((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado() + "\"" + "[peripheries=2]";
+                        L_EstadosAceptacion.Add(((Lista_Cerradura)L_Cerradura[i]).Get_Nombre_Estado());
                         break;
                     }
                 }
@@ -680,6 +682,10 @@ namespace _OLC1_PY1_201701133.Estructuras
             System.Diagnostics.Process proc = new System.Diagnostics.Process();
             proc.StartInfo = procStartInfo;
             proc.Start();
+        }
+
+        public List<int> Estados_Aceptacion() {
+            return L_EstadosAceptacion;
         }
     }
 }

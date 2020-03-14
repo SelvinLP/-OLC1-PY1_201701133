@@ -22,6 +22,8 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
         List<Tokens_Reconocidos> Lista_Tokens_Rec;
         //Lista de tokens no reconocidos
         List<Tokens_Reconocidos> Lista_Tokens_NORec;
+        //Variable estado
+        int Estado = 1;
         public Analizador_Lexema_Entrada(String Cadena, String[,] Tabla_Trans,ArrayList Conj)
         {
             this.Cadena_Lexema = Cadena;
@@ -47,7 +49,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
         {
             Calculo_Numero_Hijos();
             Boolean bandera = true;
-            int Estado = 1;
 
             int Fila = 1;
             int Columna = 0; 
@@ -60,7 +61,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                 //0 no
 
                 //validaciones
-                Console.WriteLine("NUEVA");
                 for (int x = 0; x < NumerodeEncabezados; x++)
                 {
 
@@ -108,12 +108,10 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 }
                                 
                             }
-                            Console.WriteLine("---" + cad + "---");
                             if (cad.Equals(Nombre))
                             {
                                 Token = Nombre;
                                 Estado = int.Parse(Tabla_Transiciones[Estado, x + 1])+1;
-                                Console.WriteLine("PASO AL ESTADO ->"+Estado);
                                 //SE INSERTA
                                 Insertado = 1;
                                 break;
@@ -122,7 +120,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             else
                             {
                                 Token = Nombre;
-                                Console.WriteLine("--ESTADO_CADENA_INCORRECTA POR: " + Nombre + "--");
                                 pos = pos - (Nombre.Length - 1);
                                 //NO INSERTA
                                 Insertado = 0;
@@ -145,7 +142,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     if (((Lista_Conjuntos)Conjuntos[ListC]).getTipo_Conjunto().Equals("Rango")) {
                                         tipo_Conjunto = 1;
                                     }
-                                    Console.WriteLine("CONTENIDO DEL CONJUNTO: " + Encontrado);
                                 }
                             }
                             #endregion
@@ -154,7 +150,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             //L~D
                             if (tipo_Conjunto == 1)
                             {
-                                Console.WriteLine("Entro a tipo rango");
                                 int a = 0;
                                 int b = 0;
                                 int valor = 0;
@@ -204,11 +199,8 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     try
                                     {
                                         a = int.Parse(a1);
-                                        Console.WriteLine("Primero: " + a);
                                         b = int.Parse(b1);
-                                        Console.WriteLine("Segundo: " + b);
                                         valor = int.Parse(v1);
-                                        Console.WriteLine("Valor: " + valor);
                                     }
                                     catch (Exception e) { }
                                     
@@ -225,7 +217,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     string str = char.ConvertFromUtf32(valor);
                                     Token = str;
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1])+1;
-                                    Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     Insertado = 1;
                                     break;
                                 }
@@ -233,7 +224,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 {
                                     string str = char.ConvertFromUtf32(valor);
                                     Token = str;
-                                    Console.WriteLine("-No valido Conjunto Rango");
                                     pos -= regreso_sencillo;
                                     regreso_sencillo = 0;
                                     Insertado = 0;
@@ -244,8 +234,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             else
                             {
                                 //conjunto por comas {,,,}
-                                Console.WriteLine("Validacion con conjunto de Comas");
-                                Console.WriteLine(Cadena_Lexema[pos]);
                                 String v = Cadena_Lexema[pos].ToString();
                                 String[] valores = Encontrado.Split(',');
                                 int enc = 0;
@@ -268,8 +256,36 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         enc = 1;
                                     }
                                 }
-                                foreach(String it in valores)
+                               
+                                foreach (String it in valores)
                                 {
+                                    //para caracteres especiale
+                                    if (it.Equals("\\n"))
+                                    {
+                                        if (Cadena_Lexema[pos] == '\n')
+                                        {
+                                            Token = "Salto de Linea";
+                                            Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                            //SE INSERTA
+                                            Insertado = 1;
+                                            enc = 2;
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (it.Equals("\\t"))
+                                        {
+                                            if (Cadena_Lexema[pos] == '\t')
+                                            {
+                                                Token = "Tabulacion";
+                                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                                //SE INSERTA
+                                                Insertado = 1;
+                                                enc = 2;
+                                            }
+                                        }
+                                    }
                                     //para mas de un caracter
                                     if (it.Length>1) {
                                         String cad = Cadena_Lexema[pos].ToString();
@@ -288,7 +304,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         {
                                             Token = it;
                                             Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                            Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                             //SE INSERTA
                                             Insertado = 1;
                                             enc = 2;
@@ -298,10 +313,10 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         else
                                         {
                                             Token = it;
-                                            Console.WriteLine("--ESTADO_CADENA_INCORRECTA POR: " + Nombre + "--");
                                             pos = pos - (it.Length - 1);
                                             //NO INSERTA
                                             Insertado = 0;
+                                            
                                         }
                                     } else {
                                         //si fuera solo un caracter
@@ -311,11 +326,9 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                             enc = 1;
                                             break;
                                         }
-                                    }
+                                    }//fin validaciones
                                     
-                                }
-
-                                Console.WriteLine(Cadena_Lexema[pos] + "----CONJUNTO COMA");
+                                }//fin recorrido
                                 if (enc == 2)
                                 {
                                     break;
@@ -325,13 +338,11 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     {
                                         //cumple
                                         Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                        Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                         Insertado = 1;
                                         break;
                                     }
                                     else
                                     {
-                                        Console.WriteLine("-No valido Conjunto-");
                                         Insertado = 0;
                                     }
                                 }
@@ -356,12 +367,10 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 }
 
                             }
-                            Console.WriteLine("---" + cad + "---");
                             if (cad.Equals(Nombre))
                             {
                                 Token = Nombre;
                                 Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                 //SE INSERTA
                                 Insertado = 1;
                                 break;
@@ -370,7 +379,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             else
                             {
                                 Token = Nombre;
-                                Console.WriteLine("--ESTADO_[:TODO:]_INCORRECTA POR: " + Nombre + "--");
                                 pos = pos - (Nombre.Length - 1);
                                 //NO INSERTA
                                 Insertado = 0;
@@ -382,7 +390,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             {
                                 Token = "Tabulacion";
                                 Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                 //SE INSERTA
                                 Insertado = 1;
                                 break;
@@ -398,7 +405,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             {
                                 Token = "Salto de Linea";
                                 Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                 //SE INSERTA
                                 Insertado = 1;
                                 Fila++;
@@ -423,7 +429,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         pos++;
                                         Token = "Comilla Simple";
                                         Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                        Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                         //SE INSERTA
                                         Insertado = 1;
                                         break;
@@ -442,7 +447,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     pos++;
                                     Token = "Comilla Simple";
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                    Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     //SE INSERTA
                                     Insertado = 1;
                                     break;
@@ -467,7 +471,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         pos++;
                                         Token = "Comilla Doble";
                                         Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                        Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                         //SE INSERTA
                                         Insertado = 1;
                                         break;
@@ -487,7 +490,6 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                     pos++;
                                     Token = "Comilla Doble";
                                     Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                    Console.WriteLine("PASO AL ESTADO ->" + Estado);
                                     //SE INSERTA
                                     Insertado = 1;
                                     break;
@@ -535,6 +537,10 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
 
             return bandera;
 
+        }
+
+        public int Get_Estado_Final() {
+            return Estado-1;
         }
 
         public String EscribirXML() {

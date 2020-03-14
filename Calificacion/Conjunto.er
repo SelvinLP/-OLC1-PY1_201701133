@@ -1,0 +1,5 @@
+CONJ: V -> u,[:hola:],\n;
+
+rex1 -> .{V}{V};
+rex1:"
+hola";
