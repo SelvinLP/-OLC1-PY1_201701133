@@ -10,7 +10,7 @@ exp1 -> ...|"El""Los"" "+|{minusculas}" "".";
 exp2 -> ...{digitos}*{digitos}"."{digitos}*{digitos};
 exp3 -> +|{simbolos}{vocales};
 exp4 -> .{a}+|" "{digitos};
-exp5 -> .\n"hola";
+exp5 -> ....\t\n\"\'[:hola:];
 
 <!
 ----------Lexemas--------
@@ -36,5 +36,5 @@ exp4:"a  12";
 exp4:"A A";
 exp4:  "A4 5";
 
-exp5 ->"
-hola";
+exp5 :"	
+\"\'hola";

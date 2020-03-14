@@ -661,7 +661,6 @@ namespace _OLC1_PY1_201701133.Estructuras
                         //ESTADO 3
                         //Concatenacion de Expresion Regular
 
-                        //System.out.println("---------------------------------"+ ((Lista_Tokens)Lista_T[x]).getLexema());
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("Punto"))
                         {
                             Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
@@ -704,19 +703,19 @@ namespace _OLC1_PY1_201701133.Estructuras
                         }
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Salto Linea"))
                         {
-                            Console.WriteLine("RECONOCIdo");
                             Nuevo.setER("OP:Salto_Linea");
                         }
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Comilla Simple"))
                         {
-                            Nuevo.setER("\'");
+                            Nuevo.setER("OP:Comilla_Simple");
                         }
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial Comilla Doble"))
                         {
-                            Nuevo.setER("\"");
+                            Nuevo.setER("OP:Comilla_Doble");
                         }
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial [:TODO:]"))
                         {
+                            Console.WriteLine("Conjunto TODO"+ ((Lista_Tokens)Lista_T[x]).getLexema());
                             Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
                         }
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(";"))

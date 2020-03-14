@@ -70,7 +70,6 @@ namespace _OLC1_PY1_201701133.Reportes
                 Contenido += "\t LEXEMA DE ENTRADA:  " + Lista_Dato_XML[posicion].Contenido + "\n";
                 Contenido += "\t CONTENIDO XML \n\n";
                 Contenido += Lista_Dato_XML[posicion].ContenidoXML;
-                Console.WriteLine("primer dato: " + Contenido);
                 this.richTextBox1.Text = Contenido;
             }
             else {

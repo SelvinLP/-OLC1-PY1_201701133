@@ -51,8 +51,10 @@ namespace _OLC1_PY1_201701133.Estructuras
             this.Nombre_ER = nm;
             //llamamos al metodo del arbol
             Nodo_Arbol nuevo = new Nodo_Arbol(Lista_ExpRegular[0].ToString());
+            Console.WriteLine(Lista_ExpRegular[0].ToString());
             Raiz = nuevo;
             for (int cant = 1; cant < Lista_ExpRegular.Count; cant++) {
+                Console.WriteLine(Lista_ExpRegular[cant].ToString());
                 nuevo = new Nodo_Arbol(Lista_ExpRegular[cant].ToString());
                 Insertar_Arbol(false, this.Raiz, nuevo);
             }
