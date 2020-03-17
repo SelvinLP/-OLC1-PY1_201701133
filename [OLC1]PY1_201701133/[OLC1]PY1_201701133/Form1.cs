@@ -259,6 +259,13 @@ namespace _OLC1_PY1_201701133
 
         private void analisisDeLexemaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //GENERAR HTML DE RESULTADOS
+            String CadenaImprimir = "<html>" + "<body>" + "<h1 align='center'>RESULTADO DE ANALISIS DE LEXEMAS </h1></br>" + "<table cellpadding='10' border = '1' align='center'>" + '\n';
+            //agregar encabezados 
+            CadenaImprimir += " <tr> <td><b>Expresion Regular</b></td> <td><b>Lexema de Entrada</b></td> <td><b>Reconocio Token</b></td> <td><b>Llego a Estado de Aceptacion</b></td> <td><b>CUMPLE EL LEXEMA</b></td>";
+            CadenaImprimir += "</tr>" + '\n';      
+
+            
             //Analisar lexemas
             ArrayList Lexemas = Analizadores.GetArrayLista_ExpE();
             Lista_Datos_XML.Clear();
@@ -291,17 +298,27 @@ namespace _OLC1_PY1_201701133
                         //Agregar resultado a Richtextox
                         String Contenido = richTextBox1.Text;
                         Contenido += "--------------------------------------------------------------------------------------------------------------------------------------"+'\n';
+                        CadenaImprimir += "<tr><td><b>" + Nombre_ER + "</b></td>";
                         Contenido += "Expresion Regular: " + Nombre_ER+'\n';
+                        CadenaImprimir += "<td><b>" + ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido() + "</b></td>";
                         Contenido += "Lexema De Entrada: " + ((Lista_LexemaE)Lexemas[pos_nombre_lex]).getContenido() + '\n';
                         if (!Es_Estado)
                         {
+                            CadenaImprimir += "<td><b>" + bandera + "</b></td>";
+                            CadenaImprimir += "<td><b>" + false + "</b></td>";
                             Contenido += "Reconocio Tokens: " + bandera + "\nLlego A Estado De Aceptacion Con Estado "+Estado_F+": " + false+"\n";
                             bandera = false;
 
                         }
-                        else { Contenido += "Reconocio Tokens: " + bandera + "\nLlego D Estado De Aceptacion Con Estado " + Estado_F + ": " + true +"\n"; }
+                        else {
+                            CadenaImprimir += "<td><b>" + bandera + "</b></td>";
+                            CadenaImprimir += "<td><b>" + true + "</b></td>";
+                            Contenido += "Reconocio Tokens: " + bandera + "\nLlego A Estado De Aceptacion Con Estado " + Estado_F + ": " + true +"\n";
+                        }
+                        CadenaImprimir += "<td><b>" + bandera + "</b></td>";
                         Contenido += "CUMPLE EL LEXEMA  " + bandera+"\n";
                         richTextBox1.Text = Contenido;
+                        CadenaImprimir += "</tr>" + '\n';
 
                         //TOKENS XML
                         String contXML = Metodo_Analizador_LexE.EscribirXML();
@@ -313,6 +330,23 @@ namespace _OLC1_PY1_201701133
                         Lista_Datos_XML.Add(nuevo2);
                     }
                 }
+            }
+
+            //Creacion del HTML
+            string path = @"Reporte_Resultado_Lexemas.html";
+            try
+            {
+                using (FileStream fs = File.Create(path))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(CadenaImprimir);
+                    fs.Write(info, 0, info.Length);
+                }
+                //Process.Start(path);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -358,6 +392,14 @@ namespace _OLC1_PY1_201701133
                 MessageBox.Show("No Hay Reportes XML");
 
             }
+        }
+
+        private void reporteTotalLexemasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tabla_Tokens TR = new Tabla_Tokens();
+            TR.webBrowser1.AllowWebBrowserDrop = false;
+            TR.webBrowser1.DocumentText = File.ReadAllText("Reporte_Resultado_Lexemas.html");
+            TR.Show();
         }
     }
 }

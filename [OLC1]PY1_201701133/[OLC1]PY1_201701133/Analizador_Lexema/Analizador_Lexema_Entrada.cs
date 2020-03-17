@@ -92,6 +92,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             
                         }
 #endregion
+
                         #region Cadena
                         //Cadena
                         if (var == (char)34)
@@ -110,6 +111,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                             }
                             if (cad.Equals(Nombre))
                             {
+
                                 Token = Nombre;
                                 Estado = int.Parse(Tabla_Transiciones[Estado, x + 1])+1;
                                 //SE INSERTA
@@ -123,6 +125,41 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 pos = pos - (Nombre.Length - 1);
                                 //NO INSERTA
                                 Insertado = 0;
+
+                            }
+                            //caractere especiales
+                            if (Nombre.Equals("\\n"))
+                            {
+                                if (Cadena_Lexema[pos] == '\n')
+                                {
+                                    Token = "Saltod de Linea";
+                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                    //SE INSERTA
+                                    Insertado = 1;
+                                    break;
+                                }
+                            }
+                            else if (Nombre.Equals("\\t"))
+                            {
+                                if (Cadena_Lexema[pos] == '\t')
+                                {
+                                    Token = "Tabulacion";
+                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                    //SE INSERTA
+                                    Insertado = 1;
+                                    break;
+                                }
+                            }
+                            else if (Nombre.Equals("\\\'"))
+                            {
+                                if (Cadena_Lexema[pos] == (char)39)
+                                {
+                                    Token = "Comilla Simple";
+                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                    //SE INSERTA
+                                    Insertado = 1;
+                                    break;
+                                }
                             }
                         }
                         #endregion
@@ -230,6 +267,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 }
                             }
                             #endregion
+
                             #region Conjunto por Comas
                             else
                             {
@@ -272,18 +310,16 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                             break;
                                         }
                                     }
-                                    else
+                                    else if (it.Equals("\\t"))
                                     {
-                                        if (it.Equals("\\t"))
+                                        if (Cadena_Lexema[pos] == '\t')
                                         {
-                                            if (Cadena_Lexema[pos] == '\t')
-                                            {
-                                                Token = "Tabulacion";
-                                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                                //SE INSERTA
-                                                Insertado = 1;
-                                                enc = 2;
-                                            }
+                                            Token = "Tabulacion";
+                                            Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                            //SE INSERTA
+                                            Insertado = 1;
+                                            enc = 2;
+                                            break;
                                         }
                                     }
                                     //para mas de un caracter
@@ -300,6 +336,18 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
 
                                         }
                                         //validacion de conjuntos con comas de vario tamaño
+                                        if (cad.Equals("\\'"))
+                                        {
+                                            if (Cadena_Lexema[pos] == (char)39)
+                                            {
+                                                Token = "Comilla Simple";
+                                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                                //SE INSERTA
+                                                Insertado = 1;
+                                                enc = 2;
+                                                break;
+                                            }
+                                        }
                                         if (cad.Equals(it))
                                         {
                                             Token = it;
@@ -333,18 +381,16 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                 {
                                     break;
                                 }
-                                else {
-                                    if (enc == 1)
-                                    {
-                                        //cumple
-                                        Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                        Insertado = 1;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Insertado = 0;
-                                    }
+                                else if (enc == 1)
+                                {
+                                    //cumple
+                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                    Insertado = 1;
+                                    break;
+                                }
+                                else
+                                {
+                                    Insertado = 0;
                                 }
                             }
 
@@ -354,77 +400,71 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                         #region Caracteres Especiales
                         //Caracteres especiales
                         if (var != (char)34 && var != (char)123) {
-                            String cad = Cadena_Lexema[pos].ToString();
-                            for (int con = 1; con < Nombre.Length; con++)
+                            if (Nombre.Equals("OP:Tabulacion"))
                             {
-                                pos++;
-                                try
+                                #region tabulacion
+                                if (Cadena_Lexema[pos] == '\t')
                                 {
-                                    cad += Cadena_Lexema[pos].ToString();
+                                    Token = "Tabulacion";
+                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                    //SE INSERTA
+                                    Insertado = 1;
+                                    break;
                                 }
-                                catch
+                                else
                                 {
+                                    Token = "Tabulacion";
+                                    Insertado = 0;
                                 }
-
+                                #endregion
                             }
-                            if (cad.Equals(Nombre))
+                            else if (Nombre.Equals("OP:Salto_Linea"))
                             {
-                                Token = Nombre;
-                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                //SE INSERTA
-                                Insertado = 1;
-                                break;
-
-                            }
-                            else
-                            {
-                                Token = Nombre;
-                                pos = pos - (Nombre.Length - 1);
-                                //NO INSERTA
-                                Insertado = 0;
-                            }
-
-                        }
-                        if (Nombre.Equals("OP:Tabulacion")) {
-                            if (Cadena_Lexema[pos] == '\t')
-                            {
-                                Token = "Tabulacion";
-                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                //SE INSERTA
-                                Insertado = 1;
-                                break;
-                            }
-                            else{
-                                Token = "Tabulacion";
-                                Insertado = 0;
-                            }
-                        }
-                        if (Nombre.Equals("OP:Salto_Linea"))
-                        {
-                            if (Cadena_Lexema[pos] == '\n')
-                            {
-                                Token = "Salto de Linea";
-                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                //SE INSERTA
-                                Insertado = 1;
-                                Fila++;
-                                Columna = 0;
-                                break;
-                            }
-                            else
-                            {
-                                Token = "Salto de Linea";
-                                Insertado = 0;
-                            }
-                        }
-                        if (Nombre.Equals("OP:Comilla_Simple"))
-                        {
-                            #region Comilla simple
-                            if (Cadena_Lexema[pos] == (char)92)
-                            {
-                                try
+                                #region Salto de linea
+                                if (Cadena_Lexema[pos] == '\n')
                                 {
-                                    if (Cadena_Lexema[pos + 1] == (char)39)
+                                    Token = "Salto de Linea";
+                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                    //SE INSERTA
+                                    Insertado = 1;
+                                    Fila++;
+                                    Columna = 0;
+                                    break;
+                                }
+                                else
+                                {
+                                    Token = "Salto de Linea";
+                                    Insertado = 0;
+                                }
+                                #endregion
+                            }
+                            else if (Nombre.Equals("OP:Comilla_Simple"))
+                            {
+                                #region Comilla simple
+                                if (Cadena_Lexema[pos] == (char)92)
+                                {
+                                    try
+                                    {
+                                        if (Cadena_Lexema[pos + 1] == (char)39)
+                                        {
+                                            pos++;
+                                            Token = "Comilla Simple";
+                                            Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                            //SE INSERTA
+                                            Insertado = 1;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Token = "Comilla Simple";
+                                            Insertado = 0;
+                                        }
+                                    }
+                                    catch { }
+                                }
+                                else
+                                {
+                                    if (Cadena_Lexema[pos] == (char)39)
                                     {
                                         pos++;
                                         Token = "Comilla Simple";
@@ -439,34 +479,35 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         Insertado = 0;
                                     }
                                 }
-                                catch { }
+                                #endregion
                             }
-                            else {
-                                if (Cadena_Lexema[pos] == (char)39)
+                            else if (Nombre.Equals("OP:Comilla_Doble"))
+                            {
+                                #region Comilla Doble
+                                if (Cadena_Lexema[pos] == (char)92)
                                 {
-                                    pos++;
-                                    Token = "Comilla Simple";
-                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                    //SE INSERTA
-                                    Insertado = 1;
-                                    break;
+                                    try
+                                    {
+                                        if (Cadena_Lexema[pos + 1] == (char)34)
+                                        {
+                                            pos++;
+                                            Token = "Comilla Doble";
+                                            Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                            //SE INSERTA
+                                            Insertado = 1;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Token = "Comilla Doble";
+                                            Insertado = 0;
+                                        }
+                                    }
+                                    catch { }
                                 }
                                 else
                                 {
-                                    Token = "Comilla Simple";
-                                    Insertado = 0;
-                                }
-                            }
-                            #endregion
-                        }
-                        if (Nombre.Equals("OP:Comilla_Doble"))
-                        {
-                            #region Comilla Doble
-                            if (Cadena_Lexema[pos] == (char)92)
-                            {
-                                try
-                                {
-                                    if (Cadena_Lexema[pos + 1] == (char)34)
+                                    if (Cadena_Lexema[pos] == (char)34)
                                     {
                                         pos++;
                                         Token = "Comilla Doble";
@@ -481,27 +522,39 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                         Insertado = 0;
                                     }
                                 }
-                                catch { }
+                                #endregion
                             }
-                            else
+                            else if (Nombre.Equals("C_Especial [:TODO:]"))
                             {
-                                if (Cadena_Lexema[pos] == (char)34)
+                                String cad = "";
+                                for (int con = pos; con < Cadena_Lexema.Length; con++)
                                 {
+                                    try {
+                                        if (Cadena_Lexema[con] != '\n')
+                                        {
+                                            cad += Cadena_Lexema[con].ToString();
+                                        }
+                                        else {
+                                            cad += Cadena_Lexema[con].ToString();
+                                            break;
+                                        }
+                                    } catch { }
                                     pos++;
-                                    Token = "Comilla Doble";
-                                    Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                    //SE INSERTA
-                                    Insertado = 1;
-                                    break;
                                 }
-                                else
-                                {
-                                    Token = "Comilla Doble";
-                                    Insertado = 0;
-                                }
+                                //aceptamos lo que leyo
+                                Token = "Conjunto TODO :" + cad;
+                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                //SE INSERTA
+                                Insertado = 1;
+                                break;
+
                             }
-                            #endregion
+
                         }
+
+
+
+
                         #endregion
 
                     }
@@ -515,20 +568,11 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                 }
                 else {
                     //no reconocio ningun token
-                    //salto de linea
-                    if (Cadena_Lexema[pos] == '\n')
-                    {
-                        Fila++;
-                        Columna = 0;
-                    }
-                    else {
-                        //sino es salto de linea hace lo demas
-                        Columna++;
-                        Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
-                        Lista_Tokens_NORec.Add(nuevo);
-                        bandera = false;
-                    }
-                    
+                    Columna++;
+                    Tokens_Reconocidos nuevo = new Tokens_Reconocidos("", Token, Fila, Columna);
+                    Lista_Tokens_NORec.Add(nuevo);
+                    bandera = false;
+
                 }
                 
 

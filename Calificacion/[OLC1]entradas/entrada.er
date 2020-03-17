@@ -1,0 +1,35 @@
+{
+
+
+//Definicion de mis conjuntos 
+CONJ: digito -> 1~9;
+CONJ: letra -> a~z;
+
+<!
+	Expresiones regulares basica, intermedia, avanzada
+!>
+
+//Expresiones Regulares
+er1 -> . {letra} *|{letra} |  {digito} "_";
+er2 -> . . . *| ."c""d" . "a" "b" "b" "c" +"d";
+
+
+%%
+%%
+
+<!
+	Definicion de lexemas
+!>
+
+er1 : "abecedario_cadena1_cadena2";
+er1 : "z";
+er1 : "1uno"; //error
+er2 : "aaaa"; //error
+er2 : "bcdddd";
+er2 : "bcd";
+er2 : "ababcdabcdbc"; //error falta d al final
+
+<!
+	Fin del archivo
+!>
+}

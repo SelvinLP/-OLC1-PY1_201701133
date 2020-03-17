@@ -715,8 +715,7 @@ namespace _OLC1_PY1_201701133.Estructuras
                         }
                         if (((Lista_Tokens)Lista_T[x]).getDescripcion().Equals("C_Especial [:TODO:]"))
                         {
-                            Console.WriteLine("Conjunto TODO"+ ((Lista_Tokens)Lista_T[x]).getLexema());
-                            Nuevo.setER(((Lista_Tokens)Lista_T[x]).getLexema());
+                            Nuevo.setER("C_Especial [:TODO:]");
                         }
                         if (((Lista_Tokens)Lista_T[x]).getLexema().Equals(";"))
                         {

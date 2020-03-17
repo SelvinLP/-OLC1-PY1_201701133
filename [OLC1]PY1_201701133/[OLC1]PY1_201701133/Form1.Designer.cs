@@ -62,6 +62,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.reporteTotalLexemasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -255,7 +256,8 @@
             this.mostrarAFDToolStripMenuItem,
             this.tablaTransicionesAFDToolStripMenuItem,
             this.reporteXMLToolStripMenuItem,
-            this.reporteErroresXMLToolStripMenuItem});
+            this.reporteErroresXMLToolStripMenuItem,
+            this.reporteTotalLexemasToolStripMenuItem});
             this.reportesToolStripMenuItem.Name = "reportesToolStripMenuItem";
             this.reportesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.reportesToolStripMenuItem.Text = "&Reportes";
@@ -336,6 +338,13 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
             // 
+            // reporteTotalLexemasToolStripMenuItem
+            // 
+            this.reporteTotalLexemasToolStripMenuItem.Name = "reporteTotalLexemasToolStripMenuItem";
+            this.reporteTotalLexemasToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.reporteTotalLexemasToolStripMenuItem.Text = "Reporte &Total Lexemas";
+            this.reporteTotalLexemasToolStripMenuItem.Click += new System.EventHandler(this.reporteTotalLexemasToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,6 +403,7 @@
         private System.Windows.Forms.ToolStripMenuItem reporteXMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reporteErroresXMLToolStripMenuItem;
         public System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem reporteTotalLexemasToolStripMenuItem;
     }
 }
 
