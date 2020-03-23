@@ -10,10 +10,11 @@ CONJ: letras -> a~f;
 CONJ: LETRAS -> A~F;
 CONJ: digitos -> 0~9;
 CONJ: todo -> [:todo:];   //primera forma en la que se pudo tomar
-
+CONJ: especial ->\',\";
 
 EXP1 -> . "#" * | | {letras} {LETRAS} {digitos};
 TODO -> * | | | {todo} "\n" "\r" "\t";
+NUEVO -> ..{especial} "\'"  "\"";
 
 EXP1: "#3C2E2E";//correcto
 EXP1: "#520A0A";//correcto
@@ -29,3 +30,4 @@ TODO: "ADB
       EFG
       HI
       JKL";//correcto
+NUEVO: "\"'\"";//Correcto

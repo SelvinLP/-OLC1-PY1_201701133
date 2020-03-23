@@ -352,21 +352,9 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                             break;
                                         }
                                     }
-                                    //para mas de un caracter
-                                    if (it.Length>1) {
-                                        String cad = Cadena_Lexema[pos].ToString();
-                                        for (int con = 1; con < it.Length; con++)
-                                        {
-                                            pos++;
-                                            try
-                                            {
-                                                cad += Cadena_Lexema[pos].ToString();
-                                            }
-                                            catch{}
-
-                                        }
-                                        //validacion de conjuntos con comas de vario tamaño
-                                        if (cad.Equals("\\'"))
+                                    else if (it.Equals("\\\'"))
+                                    {
+                                        try
                                         {
                                             if (Cadena_Lexema[pos] == (char)39)
                                             {
@@ -377,23 +365,33 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                                 enc = 2;
                                                 break;
                                             }
-                                        }else
-                                        {
-                                            Token = it;
-                                            pos = pos - (it.Length - 1);
-                                            //NO INSERTA
-                                            Insertado = 0;
-                                            
                                         }
-                                    } else {
-                                        //si fuera solo un caracter
-                                        if (it.Equals(v))
+                                        catch { }
+
+                                    }
+                                    else if (it.Equals("\\\""))
+                                    {
+                                        try
                                         {
-                                            Token = it;
-                                            enc = 1;
-                                            break;
+                                            if (Cadena_Lexema[pos+1]==(char )34)
+                                            {
+                                                pos++;
+                                                Token = "Comilla Doble";
+                                                Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                                //SE INSERTA
+                                                Insertado = 1;
+                                                enc = 2;
+                                                break;
+                                            }
                                         }
-                                    }//fin validaciones
+                                        catch { }
+
+                                    }else if (it.Equals(v))
+                                    {
+                                        Token = it;
+                                        enc = 1;
+                                        break;
+                                    }
                                     
                                 }//fin recorrido
                                 if (enc == 2)
