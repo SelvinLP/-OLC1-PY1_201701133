@@ -322,6 +322,36 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                             break;
                                         }
                                     }
+                                    else if (it.Equals("todo"))
+                                    {
+                                        if (Cadena_Lexema[pos]!='\n') {
+                                            String cad = "";
+                                            for (int con = pos; con < Cadena_Lexema.Length; con++)
+                                            {
+                                                try
+                                                {
+                                                    if (Cadena_Lexema[con] != '\n')
+                                                    {
+                                                        cad += Cadena_Lexema[con].ToString();
+                                                    }
+                                                    else
+                                                    {
+                                                        pos--;
+                                                        break;
+                                                    }
+                                                }
+                                                catch { }
+                                                pos++;
+                                            }
+                                            //aceptamos lo que leyo
+                                            Token = "Conjunto TODO :" + cad;
+                                            Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
+                                            //SE INSERTA
+                                            Insertado = 1;
+                                            enc = 2;
+                                            break;
+                                        }
+                                    }
                                     //para mas de un caracter
                                     if (it.Length>1) {
                                         String cad = Cadena_Lexema[pos].ToString();
@@ -347,18 +377,7 @@ namespace _OLC1_PY1_201701133.Analizador_Lexema
                                                 enc = 2;
                                                 break;
                                             }
-                                        }
-                                        if (cad.Equals(it))
-                                        {
-                                            Token = it;
-                                            Estado = int.Parse(Tabla_Transiciones[Estado, x + 1]) + 1;
-                                            //SE INSERTA
-                                            Insertado = 1;
-                                            enc = 2;
-                                            break;
-
-                                        }
-                                        else
+                                        }else
                                         {
                                             Token = it;
                                             pos = pos - (it.Length - 1);
