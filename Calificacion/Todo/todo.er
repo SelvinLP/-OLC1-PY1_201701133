@@ -1,0 +1,58 @@
+<!
+\\CALIFICACION DEL [:TODO:]//
+!>
+
+CONJ: letras -> a~f;
+CONJ: LETRAS -> A~F;
+CONJ: digitos -> 0~9;
+//CONJ: todo -> [:todo:];
+//CONJ: todo -> [:ABCDEFGHIJKLMNÑOPQRSTUVWXYZ\n\t:];
+
+<!////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////PROYECTO 1/////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////!>
+
+EXP1 -> . "#" * | | {letras} {LETRAS} {digitos};
+TODO -> * | | | {todo} "\n" "\r" "\t";
+er1 -> . {letras} *| {letras} |  {digitos} "_";
+er2 -> . . . *| ."c""d" . "a" "b" "b" "c" +"d";
+
+er1 : "abecedario_cadena1_cadena2";
+er1 : "z";
+er1 : "1uno"; //error
+er2 : "aaaa"; //error
+er2 : "bcdddd";
+er2 : "bcd";
+er2 : "ababcdabcdbc"; //error falta d al final
+EXP1: "#3C2E2E";//correcto
+EXP1: "#520A0A";//correcto
+EXP1: "#D88888";//correcto
+EXP1: "#41DA90";//correcto
+EXP1: "#591224";//correcto
+EXP1: "#BEB6B8";//correcto
+EXP1: "2#143EA";//incorrecto
+TODO: "
+
+        C
+          O
+            M
+              P
+                I
+                  L
+                    A
+                      D
+                        O
+                          R
+                            E
+                              S
+                                1
+                                  ";//correcto
+TODO: "ADB
+
+      EFG
+      HI
+      JKL";//correcto

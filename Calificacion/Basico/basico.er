@@ -1,0 +1,50 @@
+♣
+//Definicion de conjuntos 
+CONJ: digito -> 1~9;
+CONJ: letra -> a~z;♥
+CONJ: cesp -> \n,\t;
+CONJ: b -> t,T,f,F;
+
+<!
+	Expresiones regulares basica
+!>
+
+//Expresiones Regulares
+basica1 -> . {letra} *|{letra} |  {digito} "_";
+basica_2 ->	"1";
+basica3 -> . . . *| ."c""d" . "a" "b" "b" "c" +"d";
+¬
+basica_4 -> .
+. .		. "\'" {b} "\'" ?\n {b};
+
+<!
+	Definicion de lexemas
+!>
+//Basica 1
+basica1 : "abecedario_cadena1_cadena2";
+basica1 : "z";
+basica1 : "1uno"♫; //error
+
+//Basica 2
+basica_2 : "2";
+basica_2 : "1";
+
+//Basica_3
+basica3 : "aaaa"; //error
+basica3 : "bcdddd";
+basica3 : "bcd";
+basica3 : "ababcdabcdbc"; //error falta d al final
+
+//Basica 4
+°basica_4: "'T'Fa"; //error quitar la a
+basica_4: "'n'no funciona"; //error
+basica_4: "'f'
+t"
+basica_4: "'t'F";
+<!
+	Fin del archivo
+!>
+
+<!
+	Hay errores lexicos en las lineas: 1,4,16,25,39
+!>
